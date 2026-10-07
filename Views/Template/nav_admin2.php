@@ -128,11 +128,11 @@
             }
 
             function abrirModal(id = null) {
-                gId('titleModal').innerText = id ? 'Editar' : 'Nuevo ';
-                gId("mainModal").classList.remove('hidden');
+                _$('#titleModal').innerText = id ? 'Editar' : 'Nuevo ';
+                _$("#mainModal").classList.remove('hidden');
                 fillModalForm(id);
             }
-            function cerrarModal() { gId('mainModal').classList.add('hidden');}             
+            function cerrarModal() { _$('#mainModal').classList.add('hidden');}             
 
 document.addEventListener('DOMContentLoaded', () => {
   const menuButton = document.getElementById('user-menu-button');

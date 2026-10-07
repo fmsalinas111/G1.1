@@ -97,8 +97,8 @@ function abrirModalIva() {  show2(['modaliva']);}
 function cerrarModalIva() {  hide2(['modaliva']);}
 function guardarCategoriaIva(event) {
   event.preventDefault();
-  const nombre = gId("nuevoIva").value.trim();
-  const codigo = gId("codigoIva").value.trim();
+  const nombre = _$("#nuevoIva").value.trim();
+  const codigo = _$("#codigoIva").value.trim();
   if (categoriasIva.some(c => c.nombre.toLowerCase() === nombre.toLowerCase())) {
       alert("Esta categoría ya existe.");    return;  }
   categoriasIva.push({    nombre,    codigo  });
@@ -106,35 +106,34 @@ function guardarCategoriaIva(event) {
   guardarCatIva(event);
   cargarCategoriasIva();
   // Seleccionar automáticamente
-  document.getElementById("categoriaIva").value =
-    nombre;
-  document.getElementById("nuevoIva").value = "";
-  document.getElementById("codigoIva").value = "";
+  _$("#categoriaIva").value = nombre;
+  _$("#nuevoIva").value = "";
+  _$("#codigoIva").value = "";
   cerrarModalIva();
 }
 /* =====================================================
    CODIGO DE PAIS
 ===================================================== */
 function actualizarCodigoPais() {
-  const pais = document.getElementById("pais").value;
-  document.getElementById("codigoPais").value = paises[pais] || "";
+  const pais = _$("#pais").value;
+  _$("#codigoPais").value = paises[pais] || "";
 }
 /* =====   GUARDAR CLIENTE   ==================== */
 function guardarCliente(event) {
   event.preventDefault();
-  const id =    document.getElementById("clienteId").value;
-  const pais =    document.getElementById("pais").value;
+  const id =    _$("#clienteId").value;
+  const pais =    _$("#pais").value;
   const datos = {
-    nombre:      document.getElementById("nombre").value.trim(),
-    apellido:      document.getElementById("apellido").value.trim(),
-    documento:      document.getElementById("documento").value.trim(),
+    nombre:      _$("#nombre").value.trim(),
+    apellido:      _$("#apellido").value.trim(),
+    documento:      _$("#documento").value.trim(),
     pais,
     codigoPais:      paises[pais],
-    telefono:      document.getElementById("telefono").value.trim(),
-    email:      document.getElementById("email").value.trim(),
-    direccion:      document.getElementById("direccion").value.trim(),
-    iva:      document.getElementById("categoriaIva").value,
-    estado:      document.getElementById("estado").value
+    telefono:      _$("#telefono").value.trim(),
+    email:      _$("#email").value.trim(),
+    direccion:      _$("#direccion").value.trim(),
+    iva:      _$("#categoriaIva").value,
+    estado:      _$("#estado").value
   };
   if (id) {
     const index =      clientes.findIndex(c => c.cid == id);
@@ -389,22 +388,22 @@ function renderPaginacion(totalPaginas) {
 }
 function fillModalForm(id) {
   
-  const form = gId("form");
+  const form = _$("#form");
   //renderCategorySelectModal(categories); //
-  form.reset();  document.getElementById("_id").value = "";
+  form.reset();  _$("#_id").value = "";
   if (id !== null) {
     const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
-    //document.getElementById("clienteId").value = cliente.cid;
-    document.getElementById("nombre").value = cliente.nombre;
-    document.getElementById("apellido").value = cliente.apellido;
-    document.getElementById("documento").value = cliente.documento;
-    document.getElementById("pais").value = cliente.pais;
+    //_$("#clienteId").value = cliente.cid;
+    _$("#nombre").value = cliente.nombre;
+    _$("#apellido").value = cliente.apellido;
+    _$("#documento").value = cliente.documento;
+    _$("#pais").value = cliente.pais;
     actualizarCodigoPais();
-    document.getElementById("telefono").value = cliente.telefono;
-    document.getElementById("email").value = cliente.email;
-    document.getElementById("direccion").value = cliente.direccion;
-    document.getElementById("categoriaIva").value = cliente.iva;
-    document.getElementById("estado").value = cliente.estado;
+    _$("#telefono").value = cliente.telefono;
+    _$("#email").value = cliente.email;
+    _$("#direccion").value = cliente.direccion;
+    _$("#categoriaIva").value = cliente.iva;
+    _$("#estado").value = cliente.estado;
   }
 }
 

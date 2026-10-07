@@ -5,7 +5,7 @@
 		    const page="'.$page.'";
 		</script>';        
 	?>
-	<br> <script  src="<?= media();?>/js/script2.js"></script>
+	<br> <script  src="<?= media();?>/js/main.js"></script>
 	<?php
 		if($_SERVER["SERVER_NAME"] == "127.0.0.1" or $_SERVER["SERVER_NAME"] == "localhost")
 			echo "<script src='$page'></script>";
