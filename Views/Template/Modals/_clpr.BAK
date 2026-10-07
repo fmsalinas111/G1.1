@@ -1,0 +1,175 @@
+  <!-- ================================================= -->
+  <!-- MODAL CLIENTE -->
+  <!-- ================================================= -->
+  <div
+    id="modalCliente"
+    class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center p-5 border-b">
+        <div>
+          <h2
+            id="tituloModalCliente" class="text-xl font-bold">
+            Nuevo cliente
+          </h2>
+
+          <p class="text-sm text-gray-500">
+            Datos del cliente
+          </p>
+        </div>
+
+        <button
+          onclick="cerrarModalCliente()" class="text-gray-500 hover:text-gray-800 text-xl">
+          ✕
+        </button>
+
+      </div>
+
+
+      <form
+        id="formCliente" onsubmit="guardarCliente(event)" class="p-5 space-y-4">
+
+        <input          type="hidden"          id="clienteId">
+
+        <!-- NOMBRE / APELLIDO -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">              Nombre            </label>
+            <input id="nombre" required class="w-full border rounded-lg px-3 py-2.5">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1"> Apellido / Razón social </label>
+            <input id="apellido" required class="w-full border rounded-lg px-3 py-2.5">
+          </div>
+        </div>
+
+        <!-- DOCUMENTO -->
+        <div>
+          <label class="block text-sm font-medium mb-1"> DNI / CUIT</label>
+          <input id="documento" class="w-full border rounded-lg px-3 py-2.5" placeholder="20-12345678-9">
+        </div>
+
+
+        <!-- TELEFONO -->
+        <div>
+          <label class="block text-sm font-medium mb-1"> WhatsApp</label>
+          <div class="flex gap-2">
+            <select
+              id="pais" onchange="actualizarCodigoPais()" class="border rounded-lg px-3 py-2.5 w-28">
+              <option value="AR">🇦🇷 AR</option>
+              <option value="UY">🇺🇾 UY</option>
+              <option value="CL">🇨🇱 CL</option>
+              <option value="BR">🇧🇷 BR</option>
+              <option value="PY">🇵🇾 PY</option>
+              <option value="BO">🇧🇴 BO</option>
+              <option value="ES">🇪🇸 ES</option>
+
+            </select>
+            <input id="codigoPais" readonly class="border rounded-lg px-3 py-2.5 w-20 bg-gray-50">
+            <input id="telefono" required class="flex-1 border rounded-lg px-3 py-2.5" placeholder="11 7034-4429">
+          </div>
+        </div>
+
+
+        <!-- EMAIL -->
+        <div>
+
+          <label class="block text-sm font-medium mb-1">
+            Email
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            class="w-full border rounded-lg px-3 py-2.5"
+            placeholder="cliente@email.com">
+
+        </div>
+
+
+        <!-- DIRECCION -->
+        <div>
+
+          <label class="block text-sm font-medium mb-1">
+            Dirección
+          </label>
+
+          <input
+            id="direccion"
+            class="w-full border rounded-lg px-3 py-2.5">
+
+        </div>
+
+
+        <!-- IVA -->
+        <div>
+
+          <label class="block text-sm font-medium mb-1">
+            Categoría de IVA
+          </label>
+
+          <div class="flex gap-2">
+
+            <select
+              id="categoriaIva"
+              class="flex-1 border rounded-lg px-3 py-2.5">
+            </select>
+
+            <button
+              type="button"
+              onclick="abrirModalIva()"
+              class="border border-blue-300 text-blue-600 hover:bg-blue-50 px-4 rounded-lg">
+              + Nueva
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ESTADO -->
+        <div>
+
+          <label class="block text-sm font-medium mb-1">
+            Estado
+          </label>
+
+          <select
+            id="estado"
+            class="w-full border rounded-lg px-3 py-2.5">
+
+            <option value="activo">
+              Activo
+            </option>
+
+            <option value="inactivo">
+              Inactivo
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- BOTONES -->
+        <div class="flex justify-end gap-3 pt-4 border-t">
+
+          <button
+            type="button"
+            onclick="cerrarModalCliente()"
+            class="px-4 py-2.5 border rounded-lg">
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+            Guardar cliente
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>

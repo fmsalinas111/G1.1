@@ -1,0 +1,37 @@
+<?php
+class Views {
+
+    /**
+     * Renderiza una vista pasando un conjunto de datos opcional
+     * 
+     * @param object|string $controller Instancia o nombre del controlador
+     * @param string $view Nombre del archivo de la vista (con o sin .php)
+     * @param array $data Datos que se extraerán en la vista
+     */
+    public function getView($controller, string $view, array $data = []) {
+        // Asegurar la extensión .php
+        if (!str_ends_with($view, '.php')) {
+            $view .= '.php';
+        }
+
+        // Obtener el nombre del controlador en texto y limpiarlo
+        $controllerName = is_object($controller) ? get_class($controller) : $controller;
+        $controllerName = ucfirst(strtolower($controllerName));
+
+        // 1. Ruta estándar: Views/NombreControlador/nombreVista.php
+        $viewPath = "Views/" . $controllerName . "/" . $view;
+
+        // 2. Ruta alternativa/global: Views/nombreVista.php (Útil para errores o home directa)
+        $globalViewPath = "Views/" . $view;
+
+        if (file_exists($viewPath)) {
+            require_once $viewPath;
+        } elseif (file_exists($globalViewPath)) {
+            require_once $globalViewPath;
+        } else {
+            // Error amigable en desarrollo si el archivo no existe físicamente
+            die("<b style='color:red;'>Error MVC:</b> La vista <code>{$view}</code> no existe en <code>{$viewPath}</code> ni en <code>{$globalViewPath}</code>.");
+        }
+    }
+}
+?>

@@ -1,0 +1,43 @@
+
+
+<script>
+
+const getNombre = (idPost)=>{
+	fetch(`http://jsonplaceholder.typicode.com/posts/${idPost}`)
+		.then(res => {
+			return res.json()
+		})
+		.then(post => {
+			console.log(post);
+			fetch(`http://jsonplaceholder.typicode.com/users/${post.userId}`)
+				.then (res => {
+					return res.json()
+				})
+				.then (user => {
+					console.log(user.name);
+				})
+
+		})
+}
+
+getNombre(6)
+
+const getNombreAsync = async(idPost) =>{
+	console.log (idPost);
+	try{
+		const resPost = await fetch(`http://jsonplaceholder.typicode.com/posts/${idPost}`)
+		const post = await resPost.json()
+
+		const resUser = await fetch(`http://jsonplaceholder.typicode.com/users/${post.userId}`)
+		const user = await resUser.json()
+
+		console.log(user.name);
+	}catch(error){
+		console.log(error);
+	}
+}
+
+getNombreAsync(80)
+
+</script>
+

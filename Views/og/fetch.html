@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<button id="boton"> Traer Datos</button>
+<div id="contenedor"></div>
+</body>
+</html>
+<script type="text/javascript">
+	var boton = document.getElementById('boton');
+	var contenedor = document.getElementById('contenedor');
+	var posts = null;
+
+	boton.addEventListener('click', function(){
+		//fetch('http://jsonplaceholder.typicode.com/posts')
+		fetch('http://localhost/m1/dist/controller/c_patient.php')
+
+		.then(data =>data.json())
+		.then(data =>{
+			
+			posts = data;
+			
+			var DatosJson = JSON.parse(JSON.stringify(posts));
+			console.log(DatosJson[0].clientname);
+			//mostrarDatos(posts) //const jsonObject = JSON.parse(posts);
+
+			iterateObject(posts);
+
+			function iterateObject(parent) {
+			  for (const child in parent) {
+			    if (typeof parent[child] === "object") {
+			      iterateObject(parent[child]);
+			    } else {
+
+				   // console.log(`${child}: ${parent[child]}`);
+			    }
+			  }
+			}
+
+/*
+			for (var prod of posts) 
+			{
+			  document.write(prod.productname + "<br />");
+			}
+*/
+
+		})
+
+	});
+
+	function mostrarDatos(posts){
+		posts.map((post,i) =>{
+			let titulo = document.createElement('h1');
+			let contenido = document.createElement('p');
+			//titulo.innerHTML = (i+1)+ " - " +post.title;
+			titulo.innerHTML = (i+1)+ " - " +post.productid;
+			//contenido.innerHTML = post.body;
+			contenido.innerHTML = post.productname;
+
+			contenedor.appendChild(titulo);
+			contenedor.appendChild(contenido);
+
+		})		
+	}
+</script>
