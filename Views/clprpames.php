@@ -17,17 +17,17 @@
         <div class="flex-1">
           <input            id="busqueda"            type="text"
             placeholder="Buscar por nombre, CUIT, teléfono..."
-            oninput="renderClientes()"
+            oninput="render()"
             class="w-full border rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <!-- FILTRO -->
         <select
           id="filtroEstado"
-          onchange="renderClientes()"
+          onchange="render()"
           class="border rounded-lg px-4 py-2.5 bg-white">
           <option value="todos">Todos los estados</option>
-          <option value="activo">Activos</option>
-          <option value="inactivo">Inactivos</option>
+          <option value="1">Activos</option>
+          <option value="0">Inactivos</option>
         </select>
     <!-- =======        cambia vista ============= -->    
       <div class="cambiador flex justify-between items-center pt-2 border-t border-gray-800">

@@ -101,16 +101,26 @@
         }
         return $return;
     }
-public function delCl(int $id, int  $type){
+public function delCl(int $id, int  $type, bool $logical){
       $this->intId = $id;  
       #primero saber si existe en ms_sales
       //$sql ="SELECT  ms_clients WHERE dad = $this->intId and companyid=$this->co";
       //$this->delete($sql);
-      $sql ="DELETE FROM ms_clients 
-      WHERE clientid = $this->intId and companyid=$this->co";
-      //echo $sql;
-      return $this->delete($sql);
+      if (!$logical) {
+      	$sql ="DELETE FROM ms_clients 
+      	WHERE clientid = $this->intId and companyid=$this->co";
+    	 $return = $this->delete($sql);
+		}else{
+			 $sql = "UPDATE ms_clients SET clstatus = ?
+          		WHERE clientid = $this->intId";
+          $arrData = array(0);
+          $return = $this->update($sql, $arrData);
+		}
+ //echo $sql;
+      return $return;
  }
+ 
+ 
       public function deleteClprpame(int $id){
       	$this->intId = $id;
         $this->intState = 0;
@@ -141,10 +151,11 @@ public function delCl(int $id, int  $type){
 
 	//existe?
 	public function existe(string $table="", $field="", int $id=0){
-		$sql = "SELECT IF(EXISTS(SELECT 1 FROM $table WHERE $field = $id), 1, 0) AS existe;";
-		echo $sql;
+		$sql = "SELECT IF(EXISTS(SELECT 1 FROM $table 
+				WHERE $field = $id), 1, 0) AS existe;";	
 		$request = $this->select($sql);
-		return $request;
+		//echo $request["existe"];
+		return $request["existe"];
 	}
 
 //******************** */

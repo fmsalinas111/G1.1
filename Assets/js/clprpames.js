@@ -5,7 +5,7 @@ async function initApp() {
     clientes =  await getDatos();
     render();
     if (android) cambiarVista('cards');
-    } catch (error) {        console.log(error);    }
+    } catch (error) {  console.log(error);    }
 }
 const getDatos = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
 
@@ -57,28 +57,7 @@ function guardarCatIva(event) {
   });
   //localStorage.setItem("categoriasIva", JSON.stringify(categoriasIva));
 }
-/*
-document.getElementById('formPerfilNegocio').addEventListener('submit', async function(e) {
-    e.preventDefault();    
-    // FormData captura automáticamente todos los inputs (textos, selects y archivos)
-    const formData = new FormData(this);    // crear función setSome o similar
-    console.log(base_url + 'mydata/setPerfil');
-    try {
-        const response = await fetch(base_url + 'mydata/setPerfil', {
-            method: 'POST', body: formData
-        });        
-        const result = await response.json();
-        console.log('Respuesta del servidor:', result);
-        if (result.success) {
-            alert('¡Datos guardados correctamente!');
-        } else {
-            alert('Error: ' + result.message);
-        }
-    } catch (err) {
-        console.error('Error enviando datos:', err);
-    }
-});
-*/
+
 /* =====================================================
    CATEGORIAS IVA
 ===================================================== */
@@ -155,8 +134,7 @@ function guardarCliente(event) {
 function render() {
   const busqueda = document.getElementById("busqueda")
       .value.toLowerCase();
-  const filtro =document
-      .getElementById("filtroEstado").value;
+  const filtro =_$("#filtroEstado").value;
   let filtrados =  clientes.filter(cliente => {
       const texto =
         `${cliente.nombre}
@@ -387,7 +365,6 @@ function renderPaginacion(totalPaginas) {
   }
 }
 function fillModalForm(id) {
-  
   const form = _$("#form");
   //renderCategorySelectModal(categories); //
   form.reset();  _$("#_id").value = "";

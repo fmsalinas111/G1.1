@@ -101,15 +101,14 @@ class Clprpames extends Controllers {public function __construct(){parent:: __co
 		$type  = intval(Sanitizer::cleanNumbersOnly($c['cltp']));		
 		# tratar  el caso de que el dato esté asociado a otros registros
 		$e= ($this->model->existe('ms_sales', 'clientid', $intId));
-      	print_r($e); 
-		echo $e['existe'];die();
+      	
 
 
 		# tipo de datos que no se pueden eliminar
 		# frontend: aviso de confirmación
 		# backend: mensaje de error si no se puede eliminar	
 		
-		$request = $this->model->delCl($intId, $type);
+		$request = $this->model->delCl($intId, $type, $e);
 		echo analizeDel($request, $intId);  die();
 	}
 	
