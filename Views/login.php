@@ -19,8 +19,11 @@
         }        
         .eye{cursor:pointer;}
       </style>
+      <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+           <script>eruda.init();</script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
 <?php
+echo server();
 //  $app = (isset($_SESSION['app']))? $_SESSION['app']:0;
   $app=0;
   echo'<script>
