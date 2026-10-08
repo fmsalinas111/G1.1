@@ -28,3 +28,25 @@ const delClass=data=>{[element, clasebuscada, claseaborrar] = data;
 const hide2 = data => data?.forEach(item => addClass([item, 'hidden']));
 const show2 = data => data?.forEach(item => removeClass([item, 'hidden']));
 
+function btnSaveUI(before=true){
+	  _$('#btnGuardar').disabled = true;
+  	_$('#btnGuardarTexto').innerText = "Guardando...";
+    	_$('#btnGuardarSpinner').classList.remove('hidden');
+	if (!before){
+		_$('#btnGuardar').disabled = false;
+  		_$('#btnGuardarTexto').innerText = "Guardar";
+    	_$('#btnGuardarSpinner').classList.add('hidden');		
+	}
+ }
+ 
+ const setCampo2 = data =>{
+  campos = document.getElementsByName(data); arr=[]; 
+  arr1['_id']=_$('#_id').value;
+  for (i = 0; i < campos.length; i++) {
+    clave = campos.item(i).id; valor = campos.item(i).value||'';
+    if (campos.item(i).type==='checkbox') valor = (campos.item(i).checked)?1:0;
+    arr1[clave]=valor;    
+  } 
+}
+
+ 

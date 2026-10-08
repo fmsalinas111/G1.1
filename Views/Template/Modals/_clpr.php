@@ -3,7 +3,7 @@
   <!-- ================================================= -->
       <?php include_once "_header.php"; ?> <!-- Header del Modal -->
       <form id="form" onsubmit="guardar(event)" class="p-6 overflow-y-auto space-y-6 flex-1">
-        <input type="hidden" id="_id">
+        <input type="hidden" id="_id" name="c">
         <!-- NOMBRE / APELLIDO -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>

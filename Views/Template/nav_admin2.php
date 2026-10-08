@@ -1,6 +1,4 @@
-<?php
-    $isLogged = (USR()>0)?true:false;
-?>
+<?php    $isLogged = (USR()>0)?true:false; ?>
 <!-- === NAV=== -->
     <body class="bg-slate-100 text-slate-800 font-sans antialiased">
         <div id="sidebarOverlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
@@ -17,6 +15,7 @@
                 </div>
                 <?php if($isLogged){  include_once "navlogged2.php";
                 }else{?>
+                <p> desconectado </p>
                 <nav class="p-4 space-y-2">
                     <a href="#inicio" class="menu-link block px-4 py-3 rounded-xl hover:bg-indigo-50">🏠 Inicio</a>
                     <a href="#quienes-somos" class="menu-link block px-4 py-3 rounded-xl hover:bg-indigo-50">👥 Quiénes somos</a>
@@ -108,11 +107,11 @@
 
             // Lógica para cambiar entre Tabla y Tarjetas (Cards) dash
             function switchView(mode) {
-                const tableView = $('.vistatabla');
-                const cardsView = $('.vistatarjeta');
-                const btnViewTable = $('.btnViewTable');
-                const btnViewCards = $('.btnViewCards');
-                console.log(mode, tableView, cardsView);
+                const tableView = _$('.vistatabla');
+                const cardsView = _$('.vistatarjeta');
+                const btnViewTable = _$('.btnViewTable');
+                const btnViewCards = _$('.btnViewCards');
+                // console.log(mode, tableView, cardsView);
 
                 if (mode === 'tabla') {
                     tableView.classList.remove('hidden');

@@ -370,7 +370,7 @@ function fillModalForm(id) {
   form.reset();  _$("#_id").value = "";
   if (id !== null) {
     const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
-    //_$("#clienteId").value = cliente.cid;
+    _$("#_id").value = cliente.cid;
     _$("#nombre").value = cliente.nombre;
     _$("#apellido").value = cliente.apellido;
     _$("#documento").value = cliente.documento;
@@ -390,6 +390,7 @@ async function guardar(e){
   if (e) e.preventDefault();
 	btnSaveUI();
 	setCampo2('c'); arr1.dttp = 1;
+	console.log(arr1);
   try {
       r = await getSome3 ('clprpames/setClprpame2', {"campos":JSON.stringify(arr1)});
       console.log(r)   ;  
