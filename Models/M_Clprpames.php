@@ -140,11 +140,12 @@ public function delCl(int $id, int  $type, bool $logical){
                   $fields['estado'], $fields['datatype'], $this->co);
         $request = $this->insert($sql, $arrData);
       }else{
-		    $sql = "UPDATE ms_clients SET clientname=?, clientlastname=?, clientemail=?, clientci=?
+		    $sql = "UPDATE ms_clients SET clientname=?, clientlastname=?, clientemail=?, 
+			clientci=?, clstatus=?
 					
       				WHERE clientid = $this->intId
       				AND companyid = $this->co";
-      	       $arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni']);
+      	       $arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni'], $fields['estado']);
         		$request = $this->update($sql, $arrData);
       } 
       return $request;

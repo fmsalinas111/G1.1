@@ -1,20 +1,12 @@
-<!-- MODAL DE CREACIÓN / EDICIÓN DE PRODUCTO -->
-              <div id="modalProductos" class="hidden fixed inset-0 bg-black/60 z-50  flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-                <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto">    
-                  <!-- Header del Modal -->
-                  <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                    <div>
-                      <h3 id="modalProductoTitulo" class="text-lg font-bold text-gray-800">Agregar Producto</h3>
-                      <!--<p class="text-xs text-gray-500">Datos y fotografías</p>                      -->
-                    </div>
-                    <button onclick="cerrarModalProducto()" class="text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100 transition">
-                      <i class="fa-solid fa-xmark text-xl"></i>
-                    </button>
-                  </div>
+<!-- ================================================= -->
+  <!-- MODAL productos -->
+  <!-- ================================================= -->
+      <?php include_once "_header.php"; ?> <!-- Header del Modal -->
+      <form id="form" onsubmit="guardar(event)" class="p-6 overflow-y-auto space-y-6 flex-1">
+        <input type="hidden" id="_id" name="c">
+        <input name="c" type="hidden" id="productoId" name="id" value="" >
 
-                  <!-- Cuerpo con Scroll Interno -->
-                  <form id="formProducto" onsubmit="guardarProducto(event)" class="p-6 overflow-y-auto space-y-6 flex-1">
-                    <input name="c" type="hidden" id="productoId" name="id" value="" >
+
                     <!-- Sección 1: Datos Principales -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div class="sm:col-span-2">
@@ -111,34 +103,6 @@
 
                   </form>
 
-                  <!-- Footer con Botones -->
-                    <!--toast-->
-                      <!-- Contenedor del Toast (Oculto por defecto con 'hidden') -->
-                      <div id="toast-success" class="hidden fixed bottom-5 right-5 flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-xl border border-gray-100" role="alert">
-                          <!-- Contenido e icono (simplificado) -->
-                          <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
-                              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/></svg>
-                          </div>
-                          <div class="ms-3 text-sm font-normal">¡Acción completada!</div>
-                          <button onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8">
-                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 14 14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                          </button>
-                      </div>
-                      <!-- Botón activador 
-                        <button onclick="showToast()" class="px-5 py-2.5 text-white bg-blue-600 rounded-lg">Mostrar</button>
-                      -->
-                    <!--toast-->
+<?php include_once "_footer.php"; ?> <!-- Footer con Botones -->
 
-
-                  <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3">
-                    <button type="button" onclick="cerrarModalProducto()" class="px-4 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition">
-                      Cancelar
-                    </button>
-                    <button type="button" onclick="guardarProducto(event)" id="btnGuardarProd" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow-sm">
-                      <span id="btnGuardarTexto">Guardar</span>
-                      <span class="spinner hidden"><i id="btnGuardarSpinner" class="fa-solid fa-spinner fa-spin "></i></span>
-                    </button>
-                  </div>
-
-                </div>
-              </div>
+                  

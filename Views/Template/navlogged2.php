@@ -8,7 +8,7 @@
                     <a href="<?=$_SESSION['page'];?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition">
                         <i class="fa-solid fa-store w-6"></i> Tienda Virtual  
                     </a>
-                    <a href="<?= base_url().'products' ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                    <a href="<?= base_url().'prods' ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition">
                         <i class="fa-solid fa-boxes-stacked w-6"></i> Productos
                     </a>
                     <a href="<?= base_url().'clprpames' ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition">
@@ -26,11 +26,10 @@
                         </summary>
                         <!-- Sub-opciones -->
                         <div class="pl-10 pr-2 py-2 space-y-1 bg-slate-950/40 rounded-b-lg mt-1">
-                            <a href="<?=base_url().'daten'?>" onclick="setDTp(3)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">Categorías</a>
-                            <a href="<?=base_url().'daten'?>" onclick="setDTp(16)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">Colores</a>
-                            <a href="<?=base_url().'daten'?>" onclick="setDTp(1)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">
-                                
-                            Marcas</a>
+                            <a href="<?=base_url().'daten'?>" onclick="setLS('dttp', 3)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">Categorías</a>
+                            <a href="<?=base_url().'daten'?>" onclick="setLS('dttp',16)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">Colores</a>
+                            <a href="<?=base_url().'daten'?>" onclick="setLS('dttp',1)" class="block py-2 px-3 text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-md transition">
+                                 Marcas</a>
                         </div>
                     </details>
                     

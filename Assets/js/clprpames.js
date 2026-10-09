@@ -2,12 +2,12 @@ let categIva = []; let clientes = [];
 async function initApp() {
   try {
     categIva = await getSome3('Data/getDataCmb/22',{'src':'data'});
-    clientes =  await getDatos();
+    clientes =  await getData();
     render();
-    if (android) cambiarVista('cards');
+    if (android) switchView('cards');  // cambiarVista('cards');
     } catch (error) {  console.log(error);    }
 }
-const getDatos = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
+const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
 
 let categoriasIva =  JSON.parse(localStorage.getItem("categoriasIva")) ||
     [ {      nombre: "Responsable Inscripto",      codigo: "RI"    },
@@ -35,7 +35,7 @@ const paises = {
 document.addEventListener("DOMContentLoaded", () => {
   actualizarCodigoPais();
   cargarCategoriasIva();
-  //cambiarVista(vistaActual);
+  
   initApp();
 });
 /* =====================================================
@@ -396,12 +396,12 @@ async function guardar(e){
       console.log(r)   ;  
 	}
 	catch (err)   { console.error('Error en la petición AJAX:', err);
-  		alert('Ocurrió un error al enviar los datos al servidor.');
+  		alert('Error al enviar los datos al servidor.');
  	} 
 	finally {  
      	//showToast();      //showToast('¡Catálogo actualizado!', 'success');
     	btnSaveUI(false);
-      clientes = await getDatos();    
+      clientes = await getData();    
       render();
       cerrarModal();
   }
@@ -422,7 +422,7 @@ async function guardar(e){
   		alert('Ocurrió un error al enviar los datos.');
  	  } 
 	  finally {  	
-        clientes = await getDatos();    
+        clientes = await getData();    
         render();
         cerrarModal();
  	  }
@@ -461,3 +461,5 @@ async function save2(url, formData = {}, fn = null) {
         throw error; 
     }
 }
+
+

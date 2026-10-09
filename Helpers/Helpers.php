@@ -225,14 +225,14 @@
 
   	function dTable($heads='', $tableId='', $footer='', $class='row dttbl') {
   		return "
-	    <div class='${class}' >
+	    <div class='$class' >
 	      <div class='col-md-12'>
 	        <div class='tile sin-tile'>
 	          <div class='tile-body'>              
 	            <div class='table-responsive'>
 	              <table class='table table-hover table-bordered table-striped' id='$tableId'>
 	                <thead>
-	                  <tr>${heads}</tr>
+	                  <tr>$heads</tr>
 	                </thead>
 	                <tbody></tbody>
 					$footer					
