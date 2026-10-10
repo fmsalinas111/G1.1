@@ -162,10 +162,10 @@ getModal('_prodMasiva',$data);
           <span class="hidden text-xs text-gray-500 font-medium" id="contadorResultados">Mostrando productos...</span>
           <span id="resultCount" class="text-sm text-gray-500"> </span>
         <div class="inline-flex rounded-lg border border-gray-200 p-1 bg-gray-50">
-          <button id="btnVistaTabla" onclick="cambiarVista('tabla')" class="px-3 py-1 text-xs font-medium rounded-md bg-white text-gray-800 shadow-sm transition">
+          <button id="btnVistaTabla" onclick="switchView('tabla')" class="btnViewTable px-3 py-1 text-xs font-medium rounded-md bg-white text-gray-800 shadow-sm transition">
             <i class="fa-solid fa-table-cells mr-1"></i> Tabla
           </button>
-          <button id="btnVistaCards" onclick="cambiarVista('cards')" class="px-3 py-1 text-xs font-medium rounded-md text-gray-500 hover:text-gray-800 transition">
+          <button id="btnVistaCards" onclick="switchView('cards')" class="btnViewCards px-3 py-1 text-xs font-medium rounded-md text-gray-500 hover:text-gray-800 transition">
             <i class="fa-solid fa-border-all mr-1"></i> Tarjetas
           </button>
         </div>
@@ -173,7 +173,7 @@ getModal('_prodMasiva',$data);
     <!-- =====================================================
         TABLA
     ====================================================== -->
-    <div id="vistaTabla" class="vistaTabla bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+    <div id="vistaTabla" class="vistatabla bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <!-- HEADER -->
@@ -264,7 +264,7 @@ getModal('_prodMasiva',$data);
     <!-- =====================================================
         cards
     ====================================================== -->
-    <div id="vistaCards" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div id="vistaTarjetas" class="hidden vistatarjeta grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative flex flex-col justify-between hover:shadow-md transition">
         <div>
           <div class="relative mb-3">

@@ -37,7 +37,7 @@ const state = {
   page: 1,
   pageSize: 10,
   selected: new Set(),
-  vistaCards: false
+  vistaCards: true
 };
 // ============================================================
 // ELEMENTOS
@@ -109,7 +109,7 @@ function render() {
   //_$('#vistaCards').innerHTML = "";
   if(state.vistaCards) {
     // Renderizar en vista de tarjetas
-        _$('#vistaCards').innerHTML = filtered.map(p => `
+        _$('#vistaTarjetas').innerHTML = filtered.map(p => `
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative flex flex-col justify-between hover:shadow-md transition" prid =${p.prid}>
             <div class="flex">
               <div class="relative mb-1">
@@ -129,8 +129,8 @@ function render() {
                 <span class=" hidden text-xs text-gray-400 line-through">$ 45.000</span>
                 <p class="text-lg font-bold text-gray-900">Precio: ${p.price}</p>
                 <div class="flex gap-1">
-                  <button prid="v,${p.prid}" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-eye"></i></button>
-                  <button prid="e,${p.prid}" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-pen"></i></button>
+                  <button prid="v,${p.prid}" onclick="abrirModal(${p.prid})" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-eye"></i></button>
+                  <button prid="e,${p.prid}" onclick="abrirModal(${p.prid})" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-pen"></i></button>
                 </div>
               </div>
             </div>
@@ -478,7 +478,7 @@ render();
 // RENDER edit modal
 // ============================================================
 _$('#vistaTabla').addEventListener('click', e => clickProd(e));
-_$('#vistaCards').addEventListener('click', e => clickProd(e));
+_$('#vistaTarjetas').addEventListener('click', e => clickProd(e));
 
 const clickProd = data =>{
     cell = data.target;
@@ -563,7 +563,7 @@ function filter(e) {
 // Alternar Vista Tabla / Cards
 function cambiarVista(tipo) {
   const tabla = document.getElementById('vistaTabla');
-  const cards = document.getElementById('vistaCards');
+  const cards = document.getElementById('vistaTarjetas');
   const btnTabla = document.getElementById('btnVistaTabla');
   const btnCards = document.getElementById('btnVistaCards');
   if (tipo === 'tabla') {

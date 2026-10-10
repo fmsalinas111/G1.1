@@ -111,7 +111,7 @@
                 const cardsView = _$('.vistatarjeta');
                 const btnViewTable = _$('.btnViewTable');
                 const btnViewCards = _$('.btnViewCards');
-                // console.log(mode, tableView, cardsView);
+                 //console.log(mode, tableView, cardsView);
 
                 if (mode === 'tabla') {
                     tableView.classList.remove('hidden');
@@ -170,9 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
-
 
 
     </script>
