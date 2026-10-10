@@ -4,10 +4,10 @@
       "<script src='https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js'></script>"
     ];
 
-   headerAdmin2($data); 
-   getModal('_cat', $data);      
- getModal('_prod',$data);       
-getModal('_prodMasiva',$data);
+    headerAdmin2($data); 
+    getModal('_cat', $data);      
+    getModal('_prod',$data);       
+    getModal('_prodMasiva',$data);
    //<body class="bg-gray-50 text-gray-900">
 ?>
 <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">                
@@ -25,10 +25,7 @@ getModal('_prodMasiva',$data);
             <div class="relative">
               <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m21 21-4.35-4.35
                     m1.35-5.65a7 7 0 1 1-14 0
                     7 7 0 0 1 14 0Z"/>
@@ -180,9 +177,7 @@ getModal('_prodMasiva',$data);
           <thead
             class="bg-gray-50 border-b border-gray-200">
             <tr
-              class="text-left text-xs
-                    uppercase tracking-wide
-                    text-gray-500">
+              class="text-left text-xs uppercase tracking-wide text-gray-500">
               <!-- CHECKBOX -->
               <th class="px-5 py-3 w-10">
                 <input id="selectAll" type="checkbox"

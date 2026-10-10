@@ -133,20 +133,21 @@ public function delCl(int $id, int  $type, bool $logical){
   public function crudCl(array $fields ){ 
       $this->intId = $fields['id'];
       if ($this->intId ===0){//nuevo
-        $sql ="INSERT INTO ms_clients (clientname, clientlastname, clientemail, clientci, 
-                clstatus, cltype, companyid)  
-              VALUES(?,?,  ?,?,  ?,?,  ?)";
+        $sql =  "INSERT INTO ms_clients (clientname, clientlastname, clientemail, clientci, 
+                clstatus, cltype, companyid, clientphone, clientaddress, iva)  
+                VALUES(?,?,?,  ?,?,?,   ?,?,?,  ?)";
         $arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni'], 
-                  $fields['estado'], $fields['datatype'], $this->co);
+                  $fields['estado'], $fields['datatype'], $this->co, $fields['wsp'], $fields['adress'],
+                  $fields['iva']  );
         $request = $this->insert($sql, $arrData);
       }else{
 		    $sql = "UPDATE ms_clients SET clientname=?, clientlastname=?, clientemail=?, 
-			clientci=?, clstatus=?
-					
-      				WHERE clientid = $this->intId
-      				AND companyid = $this->co";
-      	       $arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni'], $fields['estado']);
-        		$request = $this->update($sql, $arrData);
+			          clientci=?, clstatus=?, clientphone=?, clientaddress=?, iva=?	
+      				  WHERE clientid = $this->intId
+      				  AND companyid = $this->co";
+      	$arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni'], 
+                    $fields['estado'], $fields['wsp'], $fields['adress'], $fields['iva']       );
+        $request = $this->update($sql, $arrData);
       } 
       return $request;
   }
@@ -156,7 +157,6 @@ public function delCl(int $id, int  $type, bool $logical){
 		$sql = "SELECT IF(EXISTS(SELECT 1 FROM $table 
 				WHERE $field = $id), 1, 0) AS existe;";	
 		$request = $this->select($sql);
-		//echo $request["existe"];
 		return $request["existe"];
 	}
 

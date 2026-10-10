@@ -1,10 +1,7 @@
 document.querySelectorAll('.tom-select').forEach((el) => {
-  new TomSelect(el, {
-    create: true,
-    sortField: { field: "text", order: "asc" },
-    plugins: ['remove_button']
-  });
-});let  products = []; let  categories = [];
+  new TomSelect(el, {create: true, sortField: { field: "text", order: "asc" }, plugins: ['remove_button']});
+});
+let products = []; let categories = [];
 async function initApp() {
   try {
     products = await getProducts();
@@ -107,8 +104,6 @@ function render() {
   if (pageProducts.length === 0) { emptyState.classList.remove("hidden" );
   } else {emptyState.classList.add("hidden");  }
   //_$('#vistaCards').innerHTML = "";
-  if(state.vistaCards) {
-    // Renderizar en vista de tarjetas
         _$('#vistaTarjetas').innerHTML = filtered.map(p => `
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative flex flex-col justify-between hover:shadow-md transition" prid =${p.prid}>
             <div class="flex">
@@ -139,8 +134,6 @@ function render() {
           </div> 
       `).join('');  //cards
 
-    return;
-  }
   pageProducts.forEach(product => {
     const row = document.createElement("tr");
     row.className = "hover:bg-gray-50 transition";
@@ -510,7 +503,6 @@ const clickProd = data =>{
     renderizarGaleriaUnificada()
 }
 function fillModalForm(id) {
-	alert (id);
   const form = _$("#form"); form.reset(); _$('#_id').value = "";
   if (id !== null) {
   	const foundEl = products.find(p => p.prid == id);

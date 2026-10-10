@@ -75,7 +75,7 @@
                             id="user-menu-dropdown" class="hidden absolute right-0 z-50 mt-2 w-48 origin-top-right 
                                 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu"  aria-orientation="vertical"  aria-labelledby="user-menu-button">
-                            <a href="/g1/profile" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" role="menuitem">
+                            <a href="profile" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" role="menuitem">
                                 <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
@@ -126,10 +126,18 @@
                 }
             }
 
-            function abrirModal(id = null) {
+            function abrirModal(id = null) { //_$$('[name="c"]')
                 _$('#titleModal').innerText = id ? 'Editar' : 'Nuevo ';
-                _$("#mainModal").classList.remove('hidden');
+                _$("#mainModal").classList.remove('hidden');               
                 fillModalForm(id);
+                const elementoAutofocus = _$("#mainModal").querySelector('[autofocus]');
+                if (elementoAutofocus) {elementoAutofocus.focus();}
+                /*else {
+                    const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+                    const firstVisibleFocusable = Array.from(_$("#mainModal").querySelectorAll(focusableSelectors))
+                    .find(el => {return !el.disabled && el.offsetWidth > 0 &&  el.offsetHeight > 0 && !el.closest('[hidden]');});
+                    if (firstVisibleFocusable) firstVisibleFocusable.focus();
+                }*/
             }
             function cerrarModal() { _$('#mainModal').classList.add('hidden');}             
 
@@ -151,23 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Toggle al hacer clic en el botón
-  menuButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
-  });
+  menuButton.addEventListener('click', (e) => {e.stopPropagation(); toggleMenu(); });
 
   // Cierra el menú al hacer clic fuera de él
   document.addEventListener('click', (e) => {
     if (!dropdown.classList.contains('hidden') && !menuButton.contains(e.target) && !dropdown.contains(e.target)) {
-      closeMenu();
-    }
+      closeMenu();}
   });
 
   // Cierra el menú al presionar la tecla Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !dropdown.classList.contains('hidden')) {
-      closeMenu();
-    }
+      closeMenu();}
   });
 });
 

@@ -157,9 +157,7 @@ function renderizarGaleriaUnificada() {
 // --- 5. ENVIAR FORMULARIO AL BACKEND (FETCH + FORMDATA) ---
 async function guardar(e) {
   if (e) e.preventDefault();
-
   btnSaveUI();
-
   try {
     const formData = new FormData();
     // 1. Campos de texto básicos
@@ -205,15 +203,6 @@ async function guardar(e) {
         }
 
   }
-}
-
-function showToast() {
-    const toast = document.getElementById('toast-success');
-    toast.classList.remove('hidden');
-    setTimeout(closeToast, 4000);
-}
-function closeToast() {
-    document.getElementById('toast-success').classList.add('hidden');
 }
 
 

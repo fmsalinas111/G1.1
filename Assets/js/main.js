@@ -11,7 +11,7 @@ const getSome3 = async (model='', par = {}, fn = null) => {
   } catch (error) { console.error('errgts3',error); throw error;  } 
 };
 
-android = true;  // (navigator.userAgent.match(/Android/i))?true:false;
+android = (navigator.userAgent.match(/Android/i))?true:false;
 // Alias definitivo para seleccionar UN elemento (ID, clase o etiqueta)
 const _$ = sel => document.querySelector(sel);
 const _$$ = sel => document.querySelectorAll(sel);
@@ -48,5 +48,16 @@ function btnSaveUI(before=true){
   } 
 }
 
+function showToast() {
+    const toast = document.getElementById('toast-success');
+    toast.classList.remove('hidden');
+    setTimeout(closeToast, 4000);
+}
+function closeToast() {
+    document.getElementById('toast-success').classList.add('hidden');
+}
+
+
 function setLS(c="",v=""){localStorage.setItem(c, v); guardarCookie(c,v,100);} 
 const getLS = clave => localStorage.getItem(clave);
+

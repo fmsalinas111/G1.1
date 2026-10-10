@@ -1,19 +1,17 @@
 let categIva = []; let clientes = [];
 async function initApp() {
   try {
-    categIva = await getSome3('Data/getDataCmb/22',{'src':'data'});
-    clientes =  await getData();
+    categIva = await getCatIva();
+    clientes = await getData();
     render();
+    //cargarCategoriasIva();
     if (android) switchView('cards');  // cambiarVista('cards');
     } catch (error) {  console.log(error);    }
 }
 const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
+const getCatIva = async () => {return await getSome3('Data/getDataCmb/22',{'src':'data'});}
 
-let categoriasIva =  JSON.parse(localStorage.getItem("categoriasIva")) ||
-    [ {      nombre: "Responsable Inscripto",      codigo: "RI"    },
-      {      nombre: "Monotributista",      codigo: "MT"    },
-      {      nombre: "Consumidor Final",      codigo: "CF"    },
-      {      nombre: "Exento",      codigo: "EX"    }    ];
+
 let vistaActual =  localStorage.getItem("vistaClientes") || "tabla";
 let paginaActual = 1;
 const clientesPorPagina = 6;
@@ -34,8 +32,6 @@ const paises = {
 ===================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   actualizarCodigoPais();
-  cargarCategoriasIva();
-  
   initApp();
 });
 /* =====================================================
@@ -64,32 +60,19 @@ function guardarCatIva(event) {
 function cargarCategoriasIva() {
   const select = document.getElementById("categoriaIva");
   select.innerHTML = "";
-  categoriasIva.forEach(categoria => {
-    const option =
-      document.createElement("option");
-      option.value = categoria.nombre;
-      option.textContent =`${categoria.nombre} (${categoria.codigo || "-"})`;
-      select.appendChild(option);
+  categIva.forEach(categoria => {
+    const option = document.createElement("option");
+    option.value = categoria.fieldId;
+    option.textContent = categoria.fieldName;
+    select.appendChild(option);
   });
 }
+
+
+
 function abrirModalIva() {  show2(['modaliva']);}
 function cerrarModalIva() {  hide2(['modaliva']);}
-function guardarCategoriaIva(event) {
-  event.preventDefault();
-  const nombre = _$("#nuevoIva").value.trim();
-  const codigo = _$("#codigoIva").value.trim();
-  if (categoriasIva.some(c => c.nombre.toLowerCase() === nombre.toLowerCase())) {
-      alert("Esta categoría ya existe.");    return;  }
-  categoriasIva.push({    nombre,    codigo  });
-  guardarDatos();//LS
-  guardarCatIva(event);
-  cargarCategoriasIva();
-  // Seleccionar automáticamente
-  _$("#categoriaIva").value = nombre;
-  _$("#nuevoIva").value = "";
-  _$("#codigoIva").value = "";
-  cerrarModalIva();
-}
+
 /* =====================================================
    CODIGO DE PAIS
 ===================================================== */
@@ -97,43 +80,11 @@ function actualizarCodigoPais() {
   const pais = _$("#pais").value;
   _$("#codigoPais").value = paises[pais] || "";
 }
-/* =====   GUARDAR CLIENTE   ==================== */
-function guardarCliente(event) {
-  event.preventDefault();
-  const id =    _$("#clienteId").value;
-  const pais =    _$("#pais").value;
-  const datos = {
-    nombre:      _$("#nombre").value.trim(),
-    apellido:      _$("#apellido").value.trim(),
-    documento:      _$("#documento").value.trim(),
-    pais,
-    codigoPais:      paises[pais],
-    telefono:      _$("#telefono").value.trim(),
-    email:      _$("#email").value.trim(),
-    direccion:      _$("#direccion").value.trim(),
-    iva:      _$("#categoriaIva").value,
-    estado:      _$("#estado").value
-  };
-  if (id) {
-    const index =      clientes.findIndex(c => c.cid == id);
-    clientes[index] = {
-      ...clientes[index],
-      ...datos
-    };
-  }
-  else {
-    clientes.push({      id: Date.now(),      ...datos    });
-  }
-  guardarDatos();
-  cerrarModal();
-  render();
-}
 /* =====================================================
    RENDER
 ===================================================== */
 function render() {
-  const busqueda = document.getElementById("busqueda")
-      .value.toLowerCase();
+  const busqueda = document.getElementById("busqueda").value.toLowerCase();
   const filtro =_$("#filtroEstado").value;
   let filtrados =  clientes.filter(cliente => {
       const texto =
@@ -225,9 +176,7 @@ function renderTarjetas(lista) {
               ${cliente.nombre[0] || ""} ${cliente.apellido[0] || ""}
             </div>
             <div>
-              <h3 class="font-bold">
-                ${cliente.nombre} ${cliente.apellido}
-              </h3>
+              <h3 class="font-bold">${cliente.nombre} ${cliente.apellido} </h3>
               <p class="text-xs text-gray-500">
                 ${cliente.documento || "Sin documento"}
               </p>
@@ -297,30 +246,12 @@ function linkWhatsApp(cliente) {
   return `https://wa.me/${numero}`;
 }
 /* =====================================================
-   ELIMINAR
-===================================================== */
-function eliminarBak(id) {
-  const cliente = clientes.find(c => c.cid === id);
-  if (!cliente) return;
-  const confirmar =    confirm(`¿Eliminar a ${cliente.nombre} ${cliente.apellido}?` );
-  if (!confirmar) return;
-  clientes =    clientes.filter(c => c.cid !== id);
-  guardarDatos();
-  render();
-}
-/* =====================================================
    SELECCIÓN
 ===================================================== */
 function actualizarSeleccion() {
-  const seleccionados =
-    document.querySelectorAll(
-      ".checkboxCliente:checked"
-    );
-  const acciones =
-    document.getElementById("accionesMasivas");
-  document.getElementById(
-    "contadorSeleccionados"
-  ).textContent =    `${seleccionados.length} seleccionados`;
+  const seleccionados = document.querySelectorAll(".checkboxCliente:checked");
+  const acciones = document.getElementById("accionesMasivas");
+  document.getElementById("contadorSeleccionados").textContent = `${seleccionados.length} seleccionados`;
   if (seleccionados.length) {
     acciones.classList.remove("hidden");
   }
@@ -329,7 +260,7 @@ function actualizarSeleccion() {
   }
 }
 function seleccionarTodos(estado) {
-  $$(".checkboxCliente").forEach(checkbox => {
+  _$$(".checkboxCliente").forEach(checkbox => {
        checkbox.checked = estado;
     });
   actualizarSeleccion();
@@ -341,7 +272,7 @@ function eliminarSeleccionados() {
   const confirmar =  confirm(      `¿Eliminar ${seleccionados.length} clientes?`    );
   if (!confirmar) return;
   clientes = clientes.filter(
-      cliente =>        !seleccionados.includes(cliente.cid)    );
+      cliente =>   !seleccionados.includes(cliente.cid)    );
   guardar();
   render();
 }
@@ -366,10 +297,11 @@ function renderPaginacion(totalPaginas) {
 }
 function fillModalForm(id) {
   const form = _$("#form");
-  //renderCategorySelectModal(categories); //
+  cargarCategoriasIva(); // Cargar categorías de IVA en el modal
   form.reset();  _$("#_id").value = "";
   if (id !== null) {
     const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
+    console.log("Cliente encontrado:", cliente);
     _$("#_id").value = cliente.cid;
     _$("#nombre").value = cliente.nombre;
     _$("#apellido").value = cliente.apellido;
@@ -384,26 +316,23 @@ function fillModalForm(id) {
   }
 }
 
-
-
 async function guardar(e){
   if (e) e.preventDefault();
-	btnSaveUI();
-	setCampo2('c'); arr1.dttp = 1;
-	console.log(arr1);
+	btnSaveUI();	setCampo2('c'); arr1.dttp = 1;
   try {
       r = await getSome3 ('clprpames/setClprpame2', {"campos":JSON.stringify(arr1)});
-      console.log(r)   ;  
+      console.log(r);  
+      //if(r.status==='success') showToast('¡Cliente guardado correctamente!', 'success');
 	}
 	catch (err)   { console.error('Error en la petición AJAX:', err);
   		alert('Error al enviar los datos al servidor.');
  	} 
 	finally {  
-     	//showToast();      //showToast('¡Catálogo actualizado!', 'success');
-    	btnSaveUI(false);
-      clientes = await getData();    
-      render();
-      cerrarModal();
+    btnSaveUI(false);
+    clientes = await getData();    
+    render();
+    cerrarModal();
+    //showToast();      //showToast('¡Catálogo actualizado!', 'success');
   }
 }
  //********* del ******
@@ -461,5 +390,3 @@ async function save2(url, formData = {}, fn = null) {
         throw error; 
     }
 }
-
-

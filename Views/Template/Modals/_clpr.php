@@ -8,7 +8,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium mb-1"> Nombre 
-              <input id="nombre" name="c" class="w-full border rounded-lg px-3 py-2.5">
+              <input id="nombre" name="c" autofocus class="w-full border rounded-lg px-3 py-2.5">
             </label>
           </div>
           <div>
@@ -38,10 +38,9 @@
               <option value="PY">🇵🇾 PY</option>
               <option value="BO">🇧🇴 BO</option>
               <option value="ES">🇪🇸 ES</option>
-
             </select>
             <input id="codigoPais" readonly class="border rounded-lg px-3 py-2.5 w-20 bg-gray-50">
-            <input id="telefono" required class="flex-1 border rounded-lg px-3 py-2.5" placeholder="11 7034-4429">
+            <input id="telefono" name="c" required class="flex-1 border rounded-lg px-3 py-2.5" placeholder="11 7034-4429">
           </div>
         </div>
 
@@ -79,5 +78,5 @@
             <option value="0">Inactivo</option>
           </select>
         </div>
-      </form>
+      
       <?php include_once "_footer.php"; ?> <!-- Footer con Botones -->

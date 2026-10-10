@@ -11,7 +11,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div class="sm:col-span-2">
                         <label class="block text-xs font-semibold text-gray-700 uppercase ">Nombre del Producto *</label>
-                        <input name ="c" type="text" id="prodNombre" required placeholder="Ej: Taladro Percutor 13mm 750W" 
+                        <input name ="c" type="text" id="prodNombre" autofocus placeholder="Ej: Taladro Percutor 13mm 750W" 
                               class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                       </div>
                       <div>
@@ -101,7 +101,7 @@
                       <input type="file" id="inputGaleriaOculto" multiple accept="image/*" class="hidden" onchange="manejarArchivosSeleccionados(this.files)">
                     </div>
 
-                  </form>
+                  
 
 <?php include_once "_footer.php"; ?> <!-- Footer con Botones -->
 

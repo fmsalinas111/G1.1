@@ -78,13 +78,16 @@ class Clprpames extends Controllers {public function __construct(){parent:: __co
 		$intId  = intval(Sanitizer::cleanNumbersOnly($campos['_id']));		
 		$name   = Sanitizer::cleanString($campos['nombre']);
 		$last   = Sanitizer::cleanString($campos['apellido']);
-		$email   = Sanitizer::cleanString($campos['email']);
+		$email  = Sanitizer::cleanString($campos['email']);
 		$dni    = Sanitizer::cleanString($campos['documento']);
 		$status = Sanitizer::cleanNumbersOnly($campos['estado']);
+		$phone  = Sanitizer::cleanNumbersOnly($campos['telefono']);		
+		$catIva  = Sanitizer::cleanNumbersOnly($campos['categoriaIva'])||0;
+		$adress  = Sanitizer::cleanString($campos['direccion']);
 		$dType  = intval(strClean($campos['dttp']));
-		$datosSanitizados = [ 'id' => $intId,
-            'nombre' => $name,     'apellido'   => $last, 'email' => $email,
-            'estado'   => $status,  'datatype'  => $dType,  'dni' =>$dni    ];
+		$datosSanitizados = ['id' => $intId, 'nombre'=>$name, 'apellido'=>$last, 
+				'email'=>$email, 'estado'=>$status, 'datatype'=>$dType, 'dni'=>$dni, 
+				'wsp' =>$phone, 'adress'=>$adress,'iva'=>$catIva ];
         $guardadoOk = $this->model->crudCl($datosSanitizados);
         if ($guardadoOk ) {   
             echo json_encode(['status' => 'success', 'message' => 'Configuración guardada exitosamente.']);

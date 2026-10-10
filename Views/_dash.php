@@ -30,16 +30,18 @@
                         <h2 class="text-base font-bold text-slate-800">Últimas Transacciones Registradas</h2>
                         
                         <div class="inline-flex rounded-lg border border-slate-200 p-1 bg-slate-50 self-start sm:self-auto">
-                            <button id="btnViewTable" onclick="switchView('table')" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-md bg-white text-slate-800 shadow-sm transition">
+                            <button id="btnVistaTabla" onclick="switchView('table')" 
+                                class="btnViewTable flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-md bg-white text-slate-800 shadow-sm transition">
                                 <i class="fa-solid fa-table-cells"></i> Tabla
                             </button>
-                            <button id="btnViewCards" onclick="switchView('cards')" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-800 transition">
+                            <button id="btnVistaCards" onclick="switchView('cards')" 
+                                class="btnViewCards flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-800 transition">
                                 <i class="fa-solid fa-address-card"></i> Tarjetas
                             </button>
                         </div>
                     </div>
 
-                    <div id="tableView" class="overflow-x-auto">
+                    <div id="tableView" class="vistatabla overflow-x-auto">
                         <table class="w-full text-left text-sm text-slate-600">
                             <thead class="bg-slate-50 text-xs font-semibold uppercase text-slate-400 border-b">
                                 <tr>
@@ -72,7 +74,7 @@
                         </table>
                     </div>
 
-                    <div id="cardsView" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div id="cardsView" class="hidden vistatarjeta grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50 flex flex-col justify-between space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-medium">POS Local</span>
@@ -124,5 +126,4 @@
         </div>
     </div>
 
-</body>
-</html>
+    <?php   footerAdmin2($data); ?>
