@@ -1,6 +1,5 @@
 arr1=new Object();
 
-///main.js
 const getSome3 = async (model='', par = {}, fn = null) => {
   const fD = new FormData(); 
   for (const key in par) { if (par.hasOwnProperty(key)) fD.append(key, par[key]);  }  
@@ -12,7 +11,7 @@ const getSome3 = async (model='', par = {}, fn = null) => {
   } catch (error) { console.error('errgts3',error); throw error;  } 
 };
 
-android = (navigator.userAgent.match(/Android/i))?true:false;
+android = true;  // (navigator.userAgent.match(/Android/i))?true:false;
 // Alias definitivo para seleccionar UN elemento (ID, clase o etiqueta)
 const _$ = sel => document.querySelector(sel);
 const _$$ = sel => document.querySelectorAll(sel);
@@ -28,3 +27,26 @@ const delClass=data=>{[element, clasebuscada, claseaborrar] = data;
 const hide2 = data => data?.forEach(item => addClass([item, 'hidden']));
 const show2 = data => data?.forEach(item => removeClass([item, 'hidden']));
 
+function btnSaveUI(before=true){
+	  _$('#btnGuardar').disabled = true;
+  	_$('#btnGuardarTexto').innerText = "Guardando...";
+    	_$('#btnGuardarSpinner').classList.remove('hidden');
+	if (!before){
+		_$('#btnGuardar').disabled = false;
+  		_$('#btnGuardarTexto').innerText = "Guardar";
+    	_$('#btnGuardarSpinner').classList.add('hidden');		
+	}
+ }
+ 
+ const setCampo2 = data =>{
+  campos = document.getElementsByName(data); 
+  arr1['_id']=_$('#_id').value;
+  for (i = 0; i < campos.length; i++) {
+    clave = campos.item(i).id; valor = campos.item(i).value||'';
+    if (campos.item(i).type==='checkbox') valor = (campos.item(i).checked)?1:0;
+    arr1[clave]=valor;    
+  } 
+}
+
+function setLS(c="",v=""){localStorage.setItem(c, v); guardarCookie(c,v,100);} 
+const getLS = clave => localStorage.getItem(clave);
