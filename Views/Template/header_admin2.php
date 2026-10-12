@@ -1,9 +1,11 @@
 <!DOCTYPE html>
     <?php   
-    	//echo "header_admin2";
         if (session_status() == PHP_SESSION_NONE) session_start(); 
-        if (!termux()){
-        	if (PAGEAPP($data['page_name'])&& USR() ==0) {header('location:'.base_url().'login'); exit();}
+        if (!termux()){//  && USR() ==0
+        	if (PAGEAPP($data['page_name'] 
+                && USR() ==0)) {
+                header('location:'.base_url().'login'); exit();
+            }
        	 //else{echo "XD";}
         }
 		//else{echo "XD2";}
@@ -19,8 +21,7 @@
         <?php if(USR()==1 && !($_SERVER["SERVER_NAME"] == "localhost") ){ ?>            
            <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
            <script>eruda.init();</script>
-        <?php  }  //end eruda
-            #header personalizado
+        <?php  }  //end eruda   #header personalizado
             $hi = (h($data['headItems'],[])); foreach ($hi as $i) { echo $i.PHP_EOL; }        
         ?>
         <style>

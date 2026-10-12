@@ -1,7 +1,43 @@
 <?php 
   class M_Clprpames extends Mysql{
 	public function __construct()	{		 parent::__construct(); 	}
-	public function selectClprpames(int $tipo)	{
+
+
+  public function addInvoice(){ //ejemplo de uso de transacciones
+    $db = new Mysql();
+    try {
+        // 1. Iniciamos la transacción
+        $db->beginTransaction();
+        // 2. Primera operación (ej. insertar una cabecera)
+        $query1 = "INSERT INTO ms_sales (clientid, amount) VALUES (?, ?)";
+        $idFactura = $db->insert($query1, [1, 1500.00]);
+        if (!$idFactura) {
+            throw new Exception("Error al insertar la factura.");
+        }
+
+        // 3. Segunda operación (ej. insertar los detalles)
+        $query2 = "INSERT INTO ms_details (salesid, productid, quantity) VALUES (?, ?, ?)";
+        $resDetalle = $db->insert($query2, [$idFactura, 5, 2]);
+
+        if (!$resDetalle) {
+            throw new Exception("Error al insertar el detalle de la factura.");
+        }
+
+        // Si todo salió bien, confirmamos los cambios permanentemente
+        $db->commit();
+        echo "¡Transacción exitosa!";
+
+    } catch (Exception $e) {
+        // Si algo falló, deshacemos todos los cambios realizados
+        $db->rollBack();
+        echo "Transacción abortada: " . $e->getMessage();
+    }    
+  }
+
+
+
+
+  public function selectClprpames(int $tipo)	{
     $this->intCompany= $_SESSION['idcompany'];
     $this->intTipo = $tipo;
 		$sql = "SELECT C.clientid as cid,clientname, clientlastname, 
@@ -152,13 +188,63 @@ public function delCl(int $id, int  $type, bool $logical){
       return $request;
   }
 
-	//existe?
-	public function existe(string $table="", $field="", int $id=0){
-		$sql = "SELECT IF(EXISTS(SELECT 1 FROM $table 
-				WHERE $field = $id), 1, 0) AS existe;";	
-		$request = $this->select($sql);
-		return $request["existe"];
-	}
+public function deleteOrDeactivateClients(array $clientIds): array {
+        if (empty($clientIds)) { return ['deleted' => 0, 'updated' => 0];}
+        try {            // Iniciamos una transacción para asegurar la integridad de los datos
+            $this->db->beginTransaction();
+            // 1. Identificar cuáles de los IDs enviados tienen registros en la tabla 'Sales'
+            // Usamos placeholders (?,?,?) según la cantidad de IDs recibidos
+            $placeholders = implode(',', array_fill(0, count($clientIds), '?'));
+            
+            $sqlCheck = "SELECT DISTINCT client_id FROM Sales WHERE client_id IN ($placeholders)";
+            $stmtCheck = $this->db->prepare($sqlCheck);
+            $stmtCheck->execute($clientIds);
+            
+            // Guardamos los IDs que Tienen Ventas
+            $idsWithSales = $stmtCheck->fetchAll(PDO::FETCH_COLUMN, 0);
+            
+            // Los que No Tienen Ventas se calculan comparando los arrays
+            $idsWithoutSales = array_diff($clientIds, $idsWithSales);
+
+            $updatedCount = 0;
+            $deletedCount = 0;
+
+            // 2. Ejecutar UPDATE (clstatus = 0) para los que tienen ventas
+            if (!empty($idsWithSales)) {
+                $placeholdersUpdate = implode(',', array_fill(0, count($idsWithSales), '?'));
+                $sqlUpdate = "UPDATE Clients SET clstatus = 0 WHERE id IN ($placeholdersUpdate)";
+                $stmtUpdate = $this->db->prepare($sqlUpdate);
+                $stmtUpdate->execute($idsWithSales);
+                $updatedCount = $stmtUpdate->rowCount();
+            }
+
+            // 3. Ejecutar DELETE para los que NO tienen ventas
+            if (!empty($idsWithoutSales)) {
+                $placeholdersDelete = implode(',', array_fill(0, count($idsWithoutSales), '?'));
+                $sqlDelete = "DELETE FROM Clients WHERE id IN ($placeholdersDelete)";
+                $stmtDelete = $this->db->prepare($sqlDelete);
+                $stmtDelete->execute(array_values($idsWithoutSales)); // array_values para resetear índices
+                $deletedCount = $stmtDelete->rowCount();
+            }
+
+            // Confirmamos los cambios si todo salió bien
+            $this->db->commit();
+
+            return [
+                'success' => true,
+                'deleted' => $deletedCount,
+                'updated' => $updatedCount
+            ];
+
+        } catch (Exception $e) {
+            // Si algo falla, revertimos cualquier cambio en la base de datos
+            $this->db->rollBack();
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
 
 //******************** */
 }?>

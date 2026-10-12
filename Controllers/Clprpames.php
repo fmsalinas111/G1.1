@@ -133,4 +133,22 @@ class Clprpames extends Controllers {public function __construct(){parent:: __co
         die();
     }	    
 
+
+public function deleteMultiple()  {
+// Ejecutar proceso
+    $resultado = $clientModel->deleteOrDeactivateClients($idsEnviados);
+
+    if ($resultado['success']) {
+        echo "Proceso completado con éxito.<br>";
+        echo "Clientes eliminados por completo: " . $resultado['deleted'] . "<br>";
+        echo "Clientes con ventas (desactivados con clstatus=0): " . $resultado['updated'] . "<br>";
+    } else {
+        echo "Error al procesar la solicitud: " . $resultado['error'];
+    }
+}
+
+public function ai(){ //transacciones
+	$request = $this->model->addInvoice();
+	echo $request;
+}
 }?>

@@ -7,10 +7,10 @@
   /* body { font-family: Arial, sans-serif;}*/
     .modal-backdrop { background: rgba(0, 0, 0, 0.45); }
 /* Oculta la X nativa en Chrome, Safari y Edge */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none;
   appearance: none;
 }
@@ -27,11 +27,11 @@ input[type="search"]::-webkit-search-results-decoration {
   <input 
     id="busqueda" 
     type="search" 
-    placeholder="Buscar por nombre, CUIT, teléfono..." 
+    placeholder="Buscar por nombre, CUIT, telÃ©fono..." 
     oninput="handleInput()" 
     class="w-full border rounded-lg pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-blue-500"
   >
-  <!-- Botón personalizado de limpieza -->
+  <!-- Botï¿½n personalizado de limpieza -->
   <button 
     id="clear-btn" 
     onclick="clearSearch()" 
@@ -48,27 +48,25 @@ input[type="search"]::-webkit-search-results-decoration {
   const clearBtn = document.getElementById('clear-btn');
 
   function handleInput() {
-    // Muestra el botón si hay texto, si no lo oculta
+    // Muestra el botï¿½n si hay texto, si no lo oculta
     if (input.value.length > 0) {
       clearBtn.classList.remove('hidden');
     } else {
       clearBtn.classList.add('hidden');
     }
-    render(); // Tu función original
+    render(); // Tu funciï¿½n original
   }
 
   function clearSearch() {
     input.value = '';
     clearBtn.classList.add('hidden');
     input.focus();
-    render(); // Ejecuta render con el buscador vacío
+    render(); // Ejecuta render con el buscador vacï¿½o
   }
 </script>
 
         <!-- FILTRO -->
-        <select
-          id="filtroEstado"
-          onchange="render()"
+        <select id="filtroEstado" onchange="render()"
           class="border rounded-lg px-4 py-2.5 bg-white">
           <option value="todos" selected>Todos los estados</option>
           <option value="1">Activos</option>

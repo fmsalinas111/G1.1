@@ -53,12 +53,13 @@
 	function PAGEAPP($page = ''){
 		$pages = array('clprpames', 'products', 'products2', 'cpacos', 'ssale', 'buysal', 
 				'inventory', 'inventory2', 'reports', 'sreports', 'datos', 'daten', '_stock', 
-				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte' ,'mydata', 'prods', 'eco6');
+				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte' ,'mydata', 'prods');
 		return (in_array($page, $pages));	
-  }
+  	}
 
 	function NOINDEX($page = ''){
- 		return PAGEAPP($page)?'<meta name="robots" content="noindex">':$page; 		
+		if ($page==='eco6') return '';
+ 		return PAGEAPP($page)?'<meta name="robots" content="noindex">':$page; 
 	}
 
 	function headerAdminSimple($data=""){

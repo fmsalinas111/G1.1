@@ -61,3 +61,36 @@ function closeToast() {
 function setLS(c="",v=""){localStorage.setItem(c, v); guardarCookie(c,v,100);} 
 const getLS = clave => localStorage.getItem(clave);
 
+ /**
+ * Envía datos a un servidor usando Fetch API.
+ * @param {string} url - La dirección de destino.
+ * @param {Object|FormData} formData - Los datos a enviar (Objeto plano o FormData).
+ * @param {Function|null} fn - Función callback opcional que recibe la respuesta del servidor.
+ */
+async function save2(url, formData = {}, fn = null) {
+    try {
+        // 1. Detectar si es FormData, si no, convertir el objeto a JSON
+        const esFormData = formData instanceof FormData;
+        const opciones = {
+            method: 'POST',
+            body: esFormData ? formData : JSON.stringify(formData),
+            headers: {}
+        };
+        // 2. Si es JSON, necesitamos especificar el Content-Type
+        // Nota: Si es FormData, el navegador asigna el Content-Type y el boundary automáticamente
+        if (!esFormData) { opciones.headers['Content-Type'] = 'application/json';        }
+        // 3. Realizar la petición
+        const respuesta = await fetch(url, opciones);
+        // 4. Validar si la respuesta HTTP es correcta (status 200-299)
+        if (!respuesta.ok) { throw new Error(`Error en la petición: ${respuesta.status} ${respuesta.statusText}`);}
+        // 5. Procesar los datos (asumiendo que el servidor responde con JSON)
+        const datos = await respuesta.json();
+        // 6. Ejecutar el callback si fue proporcionado
+        if (typeof fn === 'function') { fn(datos); }
+        return datos;
+    } catch (error) {
+        console.error('Error al guardar:', error.message);
+        // Aquí puedes agregar alertas globales como Swal.fire() o toastr si usas alguna librería
+        throw error; 
+    }
+}

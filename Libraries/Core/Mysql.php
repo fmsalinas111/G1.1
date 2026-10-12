@@ -1,5 +1,4 @@
-<?php 
-class Mysql extends Conexion{
+<?php class Mysql extends Conexion{
 	private $conexion;	private $strquery;	private $arrvalues;
 	public $co; public $usr;
 	public function __construct(){
@@ -45,6 +44,27 @@ class Mysql extends Conexion{
 		return $result->rowCount();		//return $del; (oldReturn)
 	}
 
+    // Inicia una transacción
+    public function beginTransaction() {
+        return $this->conexion->beginTransaction();
+    }
+    // Confirma los cambios de la transacción
+    public function commit() {
+        return $this->conexion->commit();
+    }
+    // Revierte los cambios si ocurre un error
+    public function rollBack() {
+        return $this->conexion->rollBack();
+    }
+
+	public function existe(string $table="", $field="", int $id=0){
+		$sql = "SELECT IF(EXISTS(SELECT 1 FROM $table 
+				WHERE $field = $id), 1, 0) AS existe;";	
+		$request = $this->select($sql);
+		return $request["existe"];
+	}
+
+
   public function maxAux(string $fecha)  {
     $intAux=(new DateTime("1899-12-30"))->diff(new DateTime($fecha))->days;
     $this->dlbAux = $intAux;  
@@ -55,26 +75,26 @@ class Mysql extends Conexion{
 	return $max_aux['newAux']!=null? $max_aux['newAux']: $intAux;
   }  
 
-  public function updtSalesAmount(int $sid, string $arg=''){
-  	$this->Sid = $sid; //$this->Date = $date; 
-  	$this->Arg = $arg;
-    $sql = "SELECT SUM(price*quantity) AS amount FROM ms_details 
-      		WHERE salesid=$this->Sid";
-    $amount = $this->select($sql);
-    //echo $arg;
-    //$campo=($arg==1)?'credit':'debit';
-    $campo = 'debit';
-    if ($this->Arg==='Ventas'||$this->Arg==='Compras'||$this->Arg==='1'||$this->Arg==='2') {
-    	$total = $amount['amount'];
-    	$sql="UPDATE ms_sales set amount =?, $campo=?, balancedue=?
-    	WHERE salesid = $this->Sid";
-    	$arrData = array($total, $total, $total);
-    }else{ //presup?
-    	$sql="UPDATE ms_sales set amount =? WHERE salesid = $this->Sid";
-    	$arrData = array($amount['amount']);
-    }
-    return $this->update($sql, $arrData);
-}
+	public function updtSalesAmount(int $sid, string $arg=''){
+		$this->Sid = $sid; //$this->Date = $date; 
+		$this->Arg = $arg;
+		$sql = "SELECT SUM(price*quantity) AS amount FROM ms_details 
+				WHERE salesid=$this->Sid";
+		$amount = $this->select($sql);
+		//echo $arg;
+		//$campo=($arg==1)?'credit':'debit';
+		$campo = 'debit';
+		if ($this->Arg==='Ventas'||$this->Arg==='Compras'||$this->Arg==='1'||$this->Arg==='2') {
+			$total = $amount['amount'];
+			$sql="UPDATE ms_sales set amount =?, $campo=?, balancedue=?
+			WHERE salesid = $this->Sid";
+			$arrData = array($total, $total, $total);
+		}else{ //presup?
+			$sql="UPDATE ms_sales set amount =? WHERE salesid = $this->Sid";
+			$arrData = array($amount['amount']);
+		}
+		return $this->update($sql, $arrData);
+	}
 
 	public function insPerception(int $clid , string $fecha, float $importe, int $banco, int $pays, int $acco, string $notas, $newAux ){
 		$this->intAcco  = $acco;
@@ -132,6 +152,5 @@ class Mysql extends Conexion{
 		$alter = $this->conexion->execute($this->strquery);
 		return $alter;
 	}
-}
-?>
+}?>
 
