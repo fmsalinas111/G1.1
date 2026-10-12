@@ -1,9 +1,12 @@
 <!DOCTYPE html>
     <?php   
+    	//echo "header_admin2";
         if (session_status() == PHP_SESSION_NONE) session_start(); 
         if (!termux()){
         	if (PAGEAPP($data['page_name'])&& USR() ==0) {header('location:'.base_url().'login'); exit();}
+       	 //else{echo "XD";}
         }
+		//else{echo "XD2";}
     ?>
     <html lang="es" class="scroll-smooth">
     <head>

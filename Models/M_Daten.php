@@ -51,14 +51,23 @@ class M_Daten extends Mysql{
       } 
       return $request;
   }
-  public function delData(int $id, int  $type){
+  public function delData(int $id, int  $type, bool $logical){
       $this->intId = $id;  
       #primero las subcats
+      if (!$logical) {
       $sql ="DELETE FROM ms_data WHERE dad = $this->intId and companyid=$this->co";
       $this->delete($sql);
       $sql ="DELETE FROM ms_data 
       WHERE dataid = $this->intId and companyid=$this->co";
-      //echo $sql;
+      }else{
+			 $sql = "UPDATE ms_data SET datastatus = ?
+          		WHERE dataid = $this->intId. and companyid=$this->co";
+          $arrData = array(0);
+          $return = $this->update($sql, $arrData);
+		}
+ //echo $sql;
+      return $return;
+      
       return $this->delete($sql);
  }
 //************** */

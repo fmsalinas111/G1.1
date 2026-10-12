@@ -174,28 +174,19 @@
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <!-- HEADER -->
-          <thead
-            class="bg-gray-50 border-b border-gray-200">
-            <tr
-              class="text-left text-xs uppercase tracking-wide text-gray-500">
+          <thead   class="bg-gray-50 border-b border-gray-200">
+            <tr     class="text-left text-xs uppercase tracking-wide text-gray-500">
               <!-- CHECKBOX -->
               <th class="px-5 py-3 w-10">
                 <input id="selectAll" type="checkbox"
                   class="w-4 h-4 rounded border-gray-300">
               </th>
               <!-- PRODUCTO -->
-              <th
-                data-sort="name"
-                class="sortable px-5 py-3 font-medium cursor-pointer hover:text-gray-900 w-1/3">
-                Producto
-                <span class="sort-icon"></span>
+              <th  data-sort="name"  class="sortable px-5 py-3 font-medium cursor-pointer hover:text-gray-900 w-1/3">
+                	Producto  <span class="sort-icon"></span>
               </th>
-              <!-- SKU -->
-              <th
-                data-sort="art"
-                class="sortable pl-10 px-5 py-3 font-medium cursor-pointer hover:text-gray-900">
-                SKU
-                <span class="sort-icon"></span>
+              <th  data-sort="art" class="sortable pl-10 px-5 py-3 font-medium cursor-pointer hover:text-gray-900">
+                	SKU  <span class="sort-icon"></span>
               </th>
               <!-- PRECIO -->
               <th
@@ -205,11 +196,8 @@
                 <span class="sort-icon"></span>
               </th>
               <!-- VISIBILIDAD -->
-              <th
-                data-sort="visible"
-                class="sortable px-5 py-3 font-medium cursor-pointer hover:text-gray-900">
-                Visibilidad
-                <span class="sort-icon"></span>
+              <th   data-sort="visible"   class="sortable px-5 py-3 font-medium cursor-pointer hover:text-gray-900">
+                Visibilidad    <span class="sort-icon"></span>
               </th>
               <!-- ESTADO -->
               <th
@@ -286,6 +274,9 @@
   </div>
 
 </main>
-    <?php   footerAdmin2($data); ?>
-  <script src="<?=media(); ?>/js/productsModal.js"></script>
-  <script src="<?=media(); ?>/js/prod_cat.js"></script>
+    <?php   
+			$data['footerItems'] = [
+      		media()."/js/productsModal.js",
+      		media()."/js/prod_cat.js"   ];
+			footerAdmin2($data); ?>
+  

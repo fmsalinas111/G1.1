@@ -21,9 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initApp();
 });
 
-// ============================================================
-// ESTADO
-// ============================================================
+// ====== ESTADO ==========
 const state = {
   search: "",
   visible: null,
@@ -103,7 +101,6 @@ function render() {
   productTable.innerHTML = "";
   if (pageProducts.length === 0) { emptyState.classList.remove("hidden" );
   } else {emptyState.classList.add("hidden");  }
-  //_$('#vistaCards').innerHTML = "";
         _$('#vistaTarjetas').innerHTML = filtered.map(p => `
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative flex flex-col justify-between hover:shadow-md transition" prid =${p.prid}>
             <div class="flex">
@@ -124,7 +121,8 @@ function render() {
                 <span class=" hidden text-xs text-gray-400 line-through">$ 45.000</span>
                 <p class="text-lg font-bold text-gray-900">Precio: ${p.price}</p>
                 <div class="flex gap-1">
-                  <button prid="v,${p.prid}" onclick="abrirModal(${p.prid})" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-eye"></i></button>
+                  <button prid="v,${p.prid}" onclick="toggleVisible(${p.prid})" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
+						<i class="fa-solid fa-eye${(p.visible>0)?'':'-slash'}"></i>${p.visible}</button>
                   <button prid="e,${p.prid}" onclick="abrirModal(${p.prid})" class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition"><i class="fa-solid fa-pen"></i></button>
                 </div>
               </div>
@@ -221,7 +219,6 @@ function render() {
           ${product.estado? "Desactivar": "Activar"}
         </button>
       </td>
-
     */
     // esto iba debajo de la img<span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-md">OFERTA</span>
     productTable.appendChild(row);
@@ -316,7 +313,7 @@ document.querySelectorAll(".sortable")
     );
   });
 
-  function updateSortIndicators() {
+function updateSortIndicators() {
   document.querySelectorAll(".sortable").forEach(header => {
       const icon = header.querySelector(".sort-icon");
       if ( header.dataset.sort === state.sortBy ) {
@@ -574,6 +571,21 @@ function cambiarVista(tipo) {
 const deleteProduct = async (prid) => {
   if (!confirm('¿Está seguro de que desea eliminar este producto?')) return;
   try {
+    const response = await fetch(base_url+`products/delProduct2/${prid}`);
+    if (!response.ok) throw new Error('Error al eliminar el producto');
+    const index = products.findIndex(product => product.prid == prid);
+    if (index !== -1)   products.splice(index, 1); 
+    render();
+  } catch (error) {
+    console.error('Error al eliminar el producto:', error);
+  }
+}
+
+const toggleVisible = async (prid) => {
+  // if (!confirm('¿Está seguro de que desea eliminar este producto?')) return;
+  const found = products.find(p => p.prid === prid);  if (!found) return;    
+	console.log(" encontrado:", found);
+	try {
     const response = await fetch(base_url+`products/delProduct2/${prid}`);
     if (!response.ok) throw new Error('Error al eliminar el producto');
     const index = products.findIndex(product => product.prid == prid);

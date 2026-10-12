@@ -1,7 +1,7 @@
 <?php 
   class M_Data extends Mysql{
     //private $co; 
-    public function __construct()	{		       parent::__construct(); 	    }
+    public function __construct(){ parent::__construct();  }
     
   public function selectData(int $id)	{
     $this->intType = $id;

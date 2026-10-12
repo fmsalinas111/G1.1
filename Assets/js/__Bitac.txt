@@ -1,0 +1,368 @@
+products. boton-up /  si no hay imagen y editamos /
+
+ssale: hacer algo cuando se edita el precio
+
+agregar especificaciones al product table para el eco6
+multi imagenes en products y multiedit
+aumentar o disminuir decimales desde ctas ctes 
+advertir en mis datos el modo erp a cambiar el rubro 
+agregar proveedor a spurcha superTable
+carga rápida de rollos.. en proceso
+reconfigurar pedidos:
+	los pedidos son ordenes de compra que no salen ni entran al depósito 
+	hasta que se crea un registro de salida o entrada con totales o parciales
+
+tambien si se usa otro depósito de salida
+pagoMixto: recibo unificado
+obtener ultimo precio de compra
+
+data seldefaults debe retornar fieldId & fieldName para normalizar y reutilizar
+
+al eliminar elem del carousel, no se actualiza el DOM
+
+modal search para compras o nueva vista compras interactiva con stock y proveedores
+pilas con roles, usuarios y módulos
+
+pedidos/remitos/entregado/inventario
+cierre de caja
+
+evaluar redefinir cargaCombo y enviar como parámetro event
+
+reporte de vencimientos de mercadería
+filterResume para bline="todos
+
+prodWilcards debe ser una tabla: (prodid, companyid, )
+tienda virtual: al agregar la imagen de un producto desde foto, si es muy pesada, 
+	- debería crearse un screenshot con la calidad disminuída
+	- y si no hay imagen mostrar en productname en lugar del "?"
+
+revisar la funcionalidad de showPreview todel?
+Inyector
+
+practicar nodejs
+proj:
+	Import data from csv https://www.youtube.com/watch?v=QC1ZptvC60I&t=7s
+	
+klk: establecer límites de fecha y hora para nuevos turnos
+	cobranza posterior al turno, debe escribir payd in sched
+	Carga masiva de pacientes desde cvs debe crear k_patient record
+	el login de u médico, debe llevar directamente al (su) dash
+	roles
+
+registro:
+	debe ser requerido el ERP a utilizarse con el nuevo registro
+	tienda virtual
+	clínica médica
+	Gestión de alquileres
+	Textil
+
+	
+establecer una estructura general para bootstrappMade a fin de desarrollar un editor
+eco multifoto y landing
+papelera joel. 
+
+salir. lleva al pos generico que debe ser actualizado!
+gallery de fotos y videos para becada, como goar.com.ar
+No permitir la creación de nuevas cuentas desde login o encaminar por el main service
+inventory products.POS
+	Mostrar compras pendientes de inventariar
+buysal. 
+	cambié el producto en una compra ya inventariada y los rec de inventory quedaron en el limbo	
+	cuando una venta o compra está pagada o parcialmente pagada, desactivar también 
+		todos los controles de ms_sales
+	Facturar presupuestos, Aunque ahora funciona?, 
+	prefiero que muestre un checkBox (Presupuesto Confirmado) dentro de inputs
+	que cuando esté true, ejecute setInvoice y mostrar duedate
+busal edit cuando ya está pagado..
+buysal.compras debe mostrar a proveedores de servicios?, cómo filtrar?
+el inventario de insumos de geprotex, debe ser igual al de textil, pedir color, pero etc y mantenerlo
+disponible para producción 
+ir al inventario de insumos es ver los mismos como un eco y elegir los mismos para vender, o producir
+
+inventory vs inventory2(textil)
+	ver si se puede unificar, ante implementar colores (y talle sen inventory), manejo de unidades
+
+xmayor/sava.
+	quiero comprar y agregar insumos.
+		- permitir conmutar el origen del compro products con un switch
+		- también desde products, activar la categ insumos o servicios
+
+	g_production
+		- al registrar una nueva orden y obtener los insumos, filtrar por los insumos existentes
+		o buscarlos de un catálogo similar al CART, 		
+cpacos, 
+register 
+mk land para products
+	crear page landing/parameter(nombre del producto(único))
+	almacenar los landing names en una tabla con duración limitada
+	en la misma tabla habrá un idproduct para acceso unívoco
+
+tabledit para compras
+universal dashboard  (detecta la app)
+remito doble
+compras por adelantado textiles
+manual de procedimein
+Nuevo algoritmo para inventario
+	La cantidad del producto se guarda en ms_details
+	Los datos generales en ms_sales
+	En ms_sales los campos determinantes para el procedimiento son:
+	- status: Un valor que no interfiera con buysal
+	- cta o actype: Al hacerse la compraventa, se determina si es entrada o salida
+		Del mismo modo se puede establecer un valor neutro para movimiento sin venta
+	- depot: nro de depósito físico, donde se halla el producto
+	- Inv_Ref: Indice de referencia para el contenedor (ej: nro de bolsa, caja, etc)
+	Estrategia de ajuste:
+		0. al crear una nueva cuenta, crear un nuevo depósito
+		1. cambiar add ms_sales.depot y preguntar dónde se deposita la mercadería comprada
+			aunque el nuevo depot del punto 1 ya hace uso del default depot de localStorage
+		2. add ms_details.depot para guardar la mercadería comprada, a su vez puede guardarse 
+			en un nro de estante, bolsa, caja...
+		3. MDM (Movimieno de mercadería) entre depósitos o sucursales.
+			es como una compra-venta sin movimiento de dinero
+		4. Ingreso de mercadería producida/ no comprada
+
+To think:
+	logout ges:
+		si la cuenta es premium, salir a su eco5, si no a gestionando\
+	cpacos 
+		mostar una venta desde cpacos, no debe ser editable, solo desde buysal
+		editar un pago desde bancos, debe mostrar cpacos?
+		cuentas por pagar automáticas (como abono)
+	textil: Ver por qué no funciona en xmayor/products
+	Los bancos de una cuenta multiempresa, deberían tener multi injerencia? 
+	buscar los substr y reemplazar con substring, revisando
+	textil. al registrar una compra sugerir ingreso de mercadería
+		o al ingresar merc.. establecer como pendiente la compra.
+		mostrar limite crediticio en dash
+		registrar en la carga de inventario el precio de compra
+	cpacos. las imagenes se guardan en la carpeta hm. Qué onda?
+	el dibujo del carrito debería ser un sticky como el logo wsp
+
+To Do: 
+	compras de insumos
+	creo que es mejor usar una editTable
+	cuando se registra un nombre ya existente, mostrar el abanico de posibilidades:
+		cambiar, agregar localidad, comprar nombre,
+		coli, no debe mostrarse desde xmayor o crear una página para la página
+	cuando se haga una compra/venta, registrar  ingreso/salida en inventario / depot
+
+eco5: 
+	borrar un pago o cobranza desde el banco tiene que:
+		implica eliminar todo el/los  slsrecord de perception
+		cambiar a status =1 del slsRec pertinente.
+		ademas de actualizar las imputaciones afectadas
+
+				
+
+	cpacos, 
+			probar misdatos en xm y coli, registro y edición
+			suspendido por falta de pago, no significa suspendido del modo free (soo limitar a los 10 productos)
+			planes
+	probar html2canva en remote server
+	qué hace script2.filltablebanner()?
+	un adelanto a un proveedor debe registrar imputation, descontar deuda, etc
+	xmayor/sava, proveedores o tercerizados
+	hm.Dash Error en total ctas por cobrar// se está actualizando acctype
+	plan de cuentas
+
+	
+tienda de textiles:
+	sugerir varios wsp (de vendedores)
+	mostrar pedido o una variante para el cliente con limitaciones 
+	en pedidos, mostrar filtro transversal con sub categorías: 
+	
+	Hacer click sobre los productos, debe mostrar un resumen de colores y peso promedio, 
+	el llamado a la acción debe abrir el wsp o previamente permitir selecionar piezas en una tabla como minor
+
+	modalProducts debe incluir campo code: para cat y subcat BARCODE, el individuo, color y peso van en inventario
+	data CRUD ej:Colores, (grupos: especiales, comunes)
+
+	revisar la confeccion de la lista de comprados y los items, hacer editable la cantidad en cart items para fraccionables
+
+
+
+
+aplicación para peluquerías agenda y llevar el
+Registro de los clientes ver poner  tipo de trabajo que se le hizo y cobrar
+	sco.familiares no debe mostrar new
+	sco.familiares. Hace falta?
+	medicos.spec
+	aplicar saldos en cpacos sumar o restar cuando corresponda
+	hacer varios ejercicios con los distintos casos
+	gastos de la casa para HM
+	pricelist. filter ya está el filtro, falta actualizar el obj despues de save
+	video xmayor
+
+	templates: set color for editable fields and create btn for elements with modal
+
+	contratos de alquiler, edición y PDF
+	Inmobiliaria
+	Proyectos
+
+	buysal: origen con select presp, compras y ventas
+	liquidar comisiones, dentro de la edicion de expedientes, habilitar facturar
+	CRear factura a partir de los eventos seleccionados
+	y al facturar crear nuevos detalles con las comisiones
+	transferencias, add target bank in modal, with validation
+	cuentas por cobrar/pagar
+	legajo abogados
+		modulos project
+	qr
+	video
+	report
+	event iuri
+
+galeria:
+	como los resultados de cards se ordenan por city, empresa, ver de mostrar un subtítulo Barrio o localidad en galeria
+
+iuri:
+
+se me ocurre que podría manejarse como los médicos de klinike. Ups, aún no liquido comisiones a ellos
+los expedientes (dossier) tienen que venir de sales
+y os events serán los details
+expedientes (incluir pendientes de facturar)
+eventos
+los eventos pueden ser compartidos por el staff y cada uno de ellos tiene un valor por jornada (cant horas) o precio fijo
+usuarios: 
+Supervisor del abogado
+Solo los socios pueden ser supervisores.
+Si hubiera varios socios, el abogado podría tener varios supervisores
+
+eco5.
+	MS_BCARD OPTIONS=DEFVALUE(110110)
+	template
+	carrousel, debería saber si es movil usar el 100% hight,
+
+rubros por compañia villa celina css grid 
+	con opcion a distintos tamaños de celda
+
+combobuilder.tercer param = idcampo, es necesario repetirlo en getSon?
+resume.js
+
+productos.
+	edición múltiple no muestra actualización 
+	prod.textil si solo tiene categoría y no sucat...
+	prod.textil, nuevo, muestra linea nueva con img//fltro categ
+	arreglar el modal para productos de acuerdo a los combos invisibles
+	season?
+	
+	imgPath line 360
+	if archivoImagen.size>X, zip
+	eliminar producto:	alertar si tiene historia
+	luego de multiedt, usar forEach para actualizar obj y DOM, también usar forEach para actualizar simple-edt
+	del sin reload
+
+Adr/setAdr(debe enviar campos como array)
+
+administrar permisos para roles
+
+préstamos: cli; fecha; cpacos por fecha
+Monto    por_12_ferias     por_24_ferias
+200000      20000			11666
+300000		30000			17500
+400000		40000			23333
+...
+
+agregar gestion de proyectos con check list
+celinavive no accede a gestión (myProds, etc): GESTION
+rubro como controller
+
+eco5: x mayor o menor
+no actualiza el balancedue al hacer pagos parciales
+gcomercial: dashboard
+
+
+buysal: NUEVO (venta - p´resup: servicios- products)
+
+#logout: borrar todo del localstorage menos los carritos
+
+rubro, no se muestra a veces en misdatos
+
+mis datos: mas simple: redes en un modal
+superadmin de galerias 
+eliminar un negocio: company, user, products, images, ms_projbyuser
+
+APRENDER EL HTML2CANVAS
+
+fotos de info2. actualizar defaults
+crear una nueva cuenta con un mail existente. ofrecer recuperar la contraseña
+
+
+testing:
+	
+	ERROR 508: inventory, select de productos o insumos: la carga del combo debe incluir ambos tipos y mostrar uno de ellos dependiendo de un check
+	product tipo. Habilitar insumos
+	
+	1.- Hacer algo con el nologo de la página de comercios
+		seguir probando update products en especial filtros
+		hm./ eliminar o editar un cargo
+		script2.177
+		revisar mis datos combo cat campo2
+		
+
+		galery by city/ state, detect interest
+		deactivator 
+		tabla con opción a pdf/excel
+
+		form de caja
+		-	barcode/ qr
+		-	opcion de venta desde products 
+		-	opcion de venta desde ecommerce, utlizando el mismo cart.js generar la tabla de productos table.td  filtros y barcode opcional
+
+		Facturador para gComercial
+		//establecer un contrato 133 m_usuarios
+		Plan:
+			Al mmento de registrar (desde gcomercial/gallery), también pedir:
+			- dirección
+			- teléfono (wsp)
+			- email
+			- nombre y apellido
+			- ... datos de facturación
+		generar un plan con la tabla contracts para generar las cuotas mensuales/ anuales
+		Desactivar autoáticamente  al los 6 meses de o uso 
+
+		
+	1.2 HM: periodicidad
+
+	2.- 
+	  cifrar setDTp() desde nav_admin
+	  g_production add or edit debe controlar las claves duplicadas
+	  El DashBoard Debe permitir:
+		* editar el nombre de la empresa/propiedad (si el rol lo permite)
+		* Definir nombre de unidades alquilables a cuartos/locales/ deptos, etc
+	3.- recibo a PDF
+	4.- La edición en cpacos, 
+		* debe permitir la edición del cargo
+	5.- Conceción de permisos a clientes/inquilinos para acceder a su cuenta
+
+	8.- Revisar la edición de Datos.Banco /datos.products-categ klk
+	9.- Backup de las bases de datos
+	10.- views/template/modalProducts, en el caso de klinike, no hace falta imagen
+	11.- simplificar la pantalla principal de gestionando y mostrar en bloques las aplicaciones, ej: oddo apps
+
+
+script2.sav0.sPage1: si termina en / genera conflictos p/e: nueva orden de produccción
+
+
+ofuscador de consola cliente
+	var _z = console;
+Object.defineProperty( window, "console", {
+    get : function(){if( _z._commandLineAPI ){ throw "Script execution not permitted" } return _z; },
+    set : function(val){ _z = val }
+});
+
+checate esto para CORS https://www.byet.net/index.php?/topic/42511-php-curl-always-respond-to-enable-javasript/&do=findComment&comment=65784
+sistema de compra venta: LUIGI
+https://drive.google.com/drive/folders/1UUAeLrLyH5Y52C2r0hjeaNnBmiywq1zV
+
+
+ALTER TABLE ms_inventory ADD INDEX idx_inventory_prod_col (companyid, productid, color);
+ALTER TABLE ms_details ADD INDEX idx_details_invid (invid);
+
+mariaDB 
+	reemplazar delimiter $$ por delimiter //
+	reemplazar `gestion7`@`localhost` por `root`@`localhost`
+
+	Pasos para eliminar líneas vacíasAbre el panel de Buscar y Reemplazar presionando Ctrl + H (en Windows o Linux) o Cmd + Option + F / Cmd + H (en Mac).Activa el botón de Expresión regular (icono .*) o presiona Alt + R.En el campo Buscar, escribe la expresión 
+	^\s*$\n.
+	Deja el campo Reemplazar completamente vacío.Haz clic en el botón Reemplazar todo (o presiona Ctrl + Alt + Enter

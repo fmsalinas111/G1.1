@@ -53,7 +53,7 @@
 	function PAGEAPP($page = ''){
 		$pages = array('clprpames', 'products', 'products2', 'cpacos', 'ssale', 'buysal', 
 				'inventory', 'inventory2', 'reports', 'sreports', 'datos', 'daten', '_stock', 
-				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte', 'eco','mydata', 'eco6','prods');
+				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte' ,'mydata', 'prods', 'eco6');
 		return (in_array($page, $pages));	
   }
 

@@ -1,0 +1,246 @@
+const eyeIcons = {
+    closed: `<i class='fa fa-eye-slash'></i>`, 
+    open: `<i class='fa fa-eye'></i>`
+};
+
+// --- CONFIGURACIÓN E INTERFAZ DEL DOM (Segura para Login y Registro) ---
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Manejo del Ojo de la Contraseña (Unificado)
+    const eye = document.querySelector('.eye');
+    const inputPassword = document.getElementById('inputPassword');
+    const inputConfirmPassword = document.getElementById('inputConfirmPassword');
+
+    if (eye && inputPassword) {
+        eye.addEventListener('click', function() {
+            const isEyeOpen = eye.classList.contains("closed");  
+            
+            if (isEyeOpen) {
+                eye.classList.remove('closed'); 
+                eye.classList.add('open');
+            } else {
+                eye.classList.remove('open'); 
+                eye.classList.add('closed');
+            }
+
+            // Cambiar tipo de input principal
+            inputPassword.type = isEyeOpen ? 'text' : 'password';
+            
+            // Cambiar tipo de input confirmación si existe (Solo en Registro)
+            if (inputConfirmPassword) {
+                inputConfirmPassword.type = isEyeOpen ? 'text' : 'password';
+            }
+            
+            eye.innerHTML = isEyeOpen ? eyeIcons.open : eyeIcons.closed;
+        });
+    }
+
+    // 2. Foco inicial seguro
+    const input1 = document.querySelector('.input1');
+    if (input1) { input1.focus(); }
+
+    // 3. Inicializar Alertas
+    closeAlert();
+
+    // 4. Configuración del Botón Demo (Sin registro)
+    initDemoFeature();
+});
+
+// --- FUNCIÓN DE LOGIN ---
+function iniciar() {
+    const emailInput = document.getElementById('inputEmailAddress');
+    const passwordInput = document.getElementById('inputPassword');
+
+    if (!emailInput || !passwordInput) return;
+
+    const data = new FormData(); 
+    data.append('usuario', emailInput.value);    
+    data.append('password', passwordInput.value);
+    data.append('mode', 'login'); 
+
+    fetch(base_url + 'Login/loginUser/', { method: 'POST', body: data })
+    .then(response => {
+        if (response.ok) return response.text(); 
+        throw new Error("Er:Ajax");
+    })
+    .then(texto => {
+        var objData = JSON.parse(texto);
+        let type = (objData.status == 'ok') ? 'success' : 'danger';
+        
+        localStorage.setItem('APP', objData.app);
+        localStorage.setItem('iCo', objData.iCo);
+        localStorage.setItem('usrName', objData.usrName);
+        localStorage.setItem('page', objData.page);
+        localStorage.setItem('logged', objData.login);
+        localStorage.setItem('db', objData.db);
+        
+        const mensajeEl = document.getElementById('mensaje');
+        if (mensajeEl) mensajeEl.innerHTML = objData.msg;
+        showAlert();
+
+        if (objData.status === true || objData.status === 'ok') {
+            let destino = (objData.page == null || objData.page == '') ? 'misdatos' : objData.page;
+            window.location.href = base_url + destino;
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+// --- FUNCIÓN DE REGISTRO ---
+function registrar() {
+    const usuarioEl = document.getElementById('inputLastName');
+    const clave1El = document.getElementById('inputPassword');
+    const clave2El = document.getElementById('inputConfirmPassword');
+    const emailEl = document.getElementById('inputEmailAddress');
+    const cellEl = document.getElementById('cellNumber');
+    const terminosEl = document.getElementById('inlineFormCheck');
+
+    // Validaciones de seguridad por si no existen los elementos
+    if (!usuarioEl || !clave1El || !clave2El) return;
+
+    let usuario = usuarioEl.value;
+    let clave1  = clave1El.value;
+    let clave2  = clave2El.value;
+
+    if (clave1 !== clave2) {
+        showDynamicAlert("Las contraseñas deben coincidir"); 
+        clave1El.focus();
+        return;
+    }  
+    if (usuario.length < 4 || usuario.length > 20) {
+        showDynamicAlert("Usuario inválido (4 a 20 caracteres)"); 
+        usuarioEl.focus();
+        return;
+    }
+    if (terminosEl && !terminosEl.checked) {
+        showDynamicAlert('Debe leer y aceptar las condiciones');
+        terminosEl.focus();
+        return;
+    }
+
+    let patron = /^[A-ZÑÁËÍÓÚÜa-zñáéíóúü0-9;._*$%&!()\/-]+$/;
+    if (!patron.test(usuario)) {
+        showDynamicAlert('Nombre de usuario contiene caracteres no permitidos');
+        usuarioEl.focus();
+        return;
+    }
+
+    const data = new FormData(); 
+    data.append('usuario', usuario);    
+    data.append('password', clave1);
+    data.append('email', emailEl ? emailEl.value : '');
+    data.append('cell', cellEl ? cellEl.value : '');
+    data.append('gallery', localStorage.gallery || '');
+    data.append('app', document.querySelector('input[name="radio"]:checked')?.value || 5);
+
+    fetch(base_url + 'Usuarios/registrar', { method: 'POST', body: data })
+    .then(response => {
+        if (response.ok) return response.text();
+        throw new Error("Error Ajax");
+    })
+    .then(texto => {
+        // Corrección: Manejo seguro si la respuesta es un "1" plano de éxito antiguo
+        if (texto.trim() == "1") {
+            showDynamicAlert('Registro exitoso');
+            window.location.href = base_url + "home";
+            return;
+        }
+
+        var objData = JSON.parse(texto);
+        const mensajeEl = document.getElementById('mensaje');
+        
+        if (mensajeEl) {
+            //alert(mensajeEl.innerText = objData.msg);
+            if (objData.msg.trim() === 'ya existe!') {
+                mensajeEl.innerText = 'Usuario ya registrado';
+            } else {
+                mensajeEl.innerHTML = objData.msg;
+            }
+        }
+        showAlert();
+        
+        if (objData.status === true || objData.status === 'ok') {
+            localStorage.clear();
+            window.location.href = base_url + "login"; 
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+// --- HELPER ALERTAS ---
+function closeAlert() {
+    const alert1 = document.getElementById('alert1');
+    if (alert1) alert1.classList.add('d-none');
+}
+
+function showAlert() {
+    const alert1 = document.getElementById('alert1');
+    if (alert1) alert1.classList.remove('d-none');
+}
+
+function showDynamicAlert(msg) {
+    const mensajeEl = document.getElementById('mensaje');
+    if (mensajeEl) mensajeEl.innerText = msg;
+    showAlert();
+}
+
+// --- FUNCIÓN MODO DEMO AUTO-ESCRITURA ---
+function initDemoFeature() {
+    if (localStorage.sr == 1) {
+        let bt = document.getElementById('btnDemo');
+        if (!bt) {
+            bt = document.createElement('BUTTON');
+            bt.setAttribute('id', 'btnDemo');
+            bt.setAttribute('class', 'btn btn-secondary btn-block mt-2');
+            bt.innerText = 'Ver Demo';
+            const cardBody = document.querySelector('.card-body');
+            if (cardBody) cardBody.appendChild(bt);
+        }
+
+        const usernameInput = document.getElementById('inputEmailAddress');
+        const passwordInput = document.getElementById('inputPassword');
+        const demoUser = "sinregistro";
+        const demoPass = "sinReg010726";
+
+        bt?.addEventListener('click', async () => {
+            if (!usernameInput || !passwordInput) return;
+            usernameInput.value = '';
+            passwordInput.value = '';
+            bt.disabled = true;
+            
+            await typeEffect(usernameInput, demoUser);
+            await new Promise(resolve => setTimeout(resolve, 200)); 
+            await typeEffect(passwordInput, demoPass);
+            
+            setTimeout(() => {
+                iniciar();
+            }, 400);
+        });
+
+        // Autoejecución controlada por localStorage
+        const data = new FormData();  
+        data.append('varVal', 'xd');    
+        data.append('varName', 'id-26');
+        fetch(base_url + 'Ssn/SetSsn', { method: 'POST', body: data })
+        .then(() => {
+            bt.click();
+            localStorage.removeItem('sr');
+        });
+    }
+}
+
+function typeEffect(inputElement, text) {
+    return new Promise((resolve) => {
+        let index = 0;
+        const speed = 40;   
+        function type() {
+            if (index < text.length) {
+                inputElement.value += text.charAt(index);
+                index++; 
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}

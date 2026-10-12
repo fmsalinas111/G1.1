@@ -87,8 +87,8 @@ class Daten extends Controllers { public function __construct(){parent:: __const
 		# tipo de datos que no se pueden eliminar
 		# frontend: aviso de confirmación
 		# backend: mensaje de error si no se puede eliminar	
-		
-		$request = $this->model->delData($intId, $type);
+		$existe = $this->model->existe("ms_products", "categoryid",  $intId);
+		$request = $this->model->delData($intId, $type, $existe);
 		echo analizeDel($request, $intId);  die();
 	}
 	

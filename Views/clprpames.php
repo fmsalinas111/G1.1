@@ -6,6 +6,15 @@
 <style>
   /* body { font-family: Arial, sans-serif;}*/
     .modal-backdrop { background: rgba(0, 0, 0, 0.45); }
+/* Oculta la X nativa en Chrome, Safari y Edge */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 </style>
   <!-- CONTENEDOR PRINCIPAL -->
   <!-- <main class="max-w-7xl mx-auto p-4 md:p-6"> -->
@@ -14,18 +23,54 @@
     <section class="bg-white rounded-xl shadow-sm p-4 mb-5">
       <div class="flex flex-col lg:flex-row gap-3">
         <!-- BUSCADOR -->
-        <div class="flex-1">
-          <input            id="busqueda"            type="text"
-            placeholder="Buscar por nombre, CUIT, telÃ©fono..."
-            oninput="render()"
-            class="w-full border rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
+        <div class="relative w-full">
+  <input 
+    id="busqueda" 
+    type="search" 
+    placeholder="Buscar por nombre, CUIT, teléfono..." 
+    oninput="handleInput()" 
+    class="w-full border rounded-lg pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-blue-500"
+  >
+  <!-- Botón personalizado de limpieza -->
+  <button 
+    id="clear-btn" 
+    onclick="clearSearch()" 
+    class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12'/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  const input = document.getElementById('busqueda');
+  const clearBtn = document.getElementById('clear-btn');
+
+  function handleInput() {
+    // Muestra el botón si hay texto, si no lo oculta
+    if (input.value.length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+    render(); // Tu función original
+  }
+
+  function clearSearch() {
+    input.value = '';
+    clearBtn.classList.add('hidden');
+    input.focus();
+    render(); // Ejecuta render con el buscador vacío
+  }
+</script>
+
         <!-- FILTRO -->
         <select
           id="filtroEstado"
           onchange="render()"
           class="border rounded-lg px-4 py-2.5 bg-white">
-          <option value="todos">Todos los estados</option>
+          <option value="todos" selected>Todos los estados</option>
           <option value="1">Activos</option>
           <option value="0">Inactivos</option>
         </select>
@@ -69,8 +114,8 @@
                 <th class="p-4 text-left">
                   <input id="seleccionarTodos" type="checkbox" onchange="seleccionarTodos(this.checked)">
                 </th>
-                <th class="p-4 text-left">Cliente</th>
-                <th class="p-4 text-left">CUIT / DNI</th>
+                <th data-sort="nombre" class="sortable px-5 py-3 font-medium cursor-pointer hover:text-gray-900 w-1/3">Nombre <span class="sort-icon"></span></th>
+                <th class="p-4 text-left">CUIT </th>
                 <th class="p-4 text-left">WhatsApp</th>
                 <th class="p-4 text-left">IVA</th>
                 <th class="p-4 text-left">Estado</th>

@@ -1,392 +1,453 @@
-let categIva = []; let clientes = [];
-async function initApp() {
-  try {
-    categIva = await getCatIva();
-    clientes = await getData();
-    render();
-    //cargarCategoriasIva();
-    if (android) switchView('cards');  // cambiarVista('cards');
-    } catch (error) {  console.log(error);    }
-}
-const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
-const getCatIva = async () => {return await getSome3('Data/getDataCmb/22',{'src':'data'});}
-
-
-let vistaActual =  localStorage.getItem("vistaClientes") || "tabla";
-let paginaActual = 1;
-const clientesPorPagina = 6;
-/* =====================================================
-   PAISES
-===================================================== */
-const paises = {
-  AR: "+54",
-  UY: "+598",
-  CL: "+56",
-  BR: "+55",
-  PY: "+595",
-  BO: "+591",
-  ES: "+34"
-};
-/* =====================================================
-   INICIO
-===================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-  actualizarCodigoPais();
-  initApp();
-});
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-    function guardarDatos() {
-      localStorage.setItem(    "clientes",    JSON.stringify(clientes)  );
-      localStorage.setItem(    "categoriasIva",    JSON.stringify(categoriasIva)  );
-    }
-function guardarCatIva(event) {
-  event.preventDefault();
-  const formData = new FormData(this);  
-  save2(base_url + 'addr/setaddr', formData, (result) => {
-    if (result.success) {
-      alert('¡Categoría de IVA guardada correctamente!'); 
-    } else {
-      alert('Error: ' + result.message);
-    }
-  });
-  //localStorage.setItem("categoriasIva", JSON.stringify(categoriasIva));
-}
-
-/* =====================================================
-   CATEGORIAS IVA
-===================================================== */
-function cargarCategoriasIva() {
-  const select = document.getElementById("categoriaIva");
-  select.innerHTML = "";
-  categIva.forEach(categoria => {
-    const option = document.createElement("option");
-    option.value = categoria.fieldId;
-    option.textContent = categoria.fieldName;
-    select.appendChild(option);
-  });
-}
-
-
-
-function abrirModalIva() {  show2(['modaliva']);}
-function cerrarModalIva() {  hide2(['modaliva']);}
-
-/* =====================================================
-   CODIGO DE PAIS
-===================================================== */
-function actualizarCodigoPais() {
-  const pais = _$("#pais").value;
-  _$("#codigoPais").value = paises[pais] || "";
-}
-/* =====================================================
-   RENDER
-===================================================== */
-function render() {
-  const busqueda = document.getElementById("busqueda").value.toLowerCase();
-  const filtro =_$("#filtroEstado").value;
-  let filtrados =  clientes.filter(cliente => {
-      const texto =
-        `${cliente.nombre}
-         ${cliente.apellido}
-         ${cliente.documento}
-         ${cliente.telefono}
-         ${cliente.email}`
-          .toLowerCase();
-      const coincideBusqueda = texto.includes(busqueda);
-      const coincideEstado = filtro === "todos" || cliente.estado === filtro;
-      return coincideBusqueda && coincideEstado;
-    });
-  const totalPaginas = Math.max(1, Math.ceil( filtrados.length / clientesPorPagina));
-  if (paginaActual > totalPaginas)     paginaActual = totalPaginas;
-  const inicio =(paginaActual - 1) * clientesPorPagina;
-  const pagina =    filtrados.slice(      inicio,      inicio + clientesPorPagina    );
-  const total = filtrados.length;
-  //console.log("Clientes filtrados:", filtrados, paginaActual, totalPaginas, pagina);
-  resultCount.textContent =`${total} ${total === 1? "cliente": "clientes"}`;              
-  renderTabla(pagina);
-  renderTarjetas(pagina);
-  renderPaginacion(totalPaginas);
-}
-/* =====================================================
-   TABLA
-===================================================== */
-function renderTabla(lista) {
-  const tbody = document.getElementById("tablaClientes");
-  if (!lista.length) {
-    tbody.innerHTML = `
-      <tr><td colspan="7" class="p-10 text-center text-gray-500">
-          No se encontraron clientes. </td> 
-      </tr> `;
-    return;
-  }
-  //console.log(lista);
-  tbody.innerHTML = lista.map(cliente => `
-      <tr class="border-b hover:bg-gray-50">
-        <td class="p-4">
-          <input type="checkbox" class="checkboxCliente"
-            value="${cliente.cid}"
-            onchange="actualizarSeleccion()">
-        </td>
-        <td class="p-4">
-          <div class="font-semibold">
-            ${cliente.nombre} ${cliente.apellido}
-          </div>
-          <div class="text-xs text-gray-500">
-            ${cliente.email || "Sin email"}
-          </div>
-        </td>
-        <td class="p-4">
-          ${cliente.documento || "-"}
-        </td>
-        <td class="p-4">
-          <a href="${linkWhatsApp(cliente)}" target="_blank"
-            class="text-green-600 hover:underline">
-            ${cliente.telefono}
-          </a>
-        </td>
-        <td class="p-4"> ${cliente.iva} </td>
-        <td class="p-4"> ${badgeEstado(cliente.estado)} </td>
-        <td class="p-4 text-right whitespace-nowrap">
-            <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})" class="_edit p-2 text-gray-400 hover:text-indigo-600 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
-            <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})" class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar"><i class="fa-solid fa-trash-can"></i></button>
-        </td>
-      </tr>
-    `).join("");
-}
-/* ========   TARJETAS  ================================= */
-function renderTarjetas(lista) {
-  const contenedor = document.getElementById("vistaTarjetas");
-  if (!lista.length) {
-    contenedor.innerHTML = `
-      <div class="col-span-full bg-white rounded-xl p-10 text-center text-gray-500">
-        No se encontraron clientes.
-      </div>    `;
-    return;
-  }
-  contenedor.innerHTML =
-    lista.map(cliente => `
-      <article
-        class="bg-white rounded-xl shadow-sm p-5 border">
-        <div class="flex justify-between items-start mb-4">
-          <div class="flex items-center gap-3">
-            <div
-              class="w-11 h-11 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
-              ${cliente.nombre[0] || ""} ${cliente.apellido[0] || ""}
-            </div>
-            <div>
-              <h3 class="font-bold">${cliente.nombre} ${cliente.apellido} </h3>
-              <p class="text-xs text-gray-500">
-                ${cliente.documento || "Sin documento"}
-              </p>
-            </div>
-          </div>
-          ${badgeEstado(cliente.estado)}
-        </div>
-        <div class="space-y-2 text-sm">
-          <div>
-            <a href="${linkWhatsApp(cliente)}" target="_blank"
-              class="text-green-600 font-medium hover:underline">
-              📱 ${cliente.codigoPais||''}
-              ${cliente.telefono}
-            </a>
-          </div>
-          <div>
-            ✉️ ${cliente.email || "Sin email"}
-          </div>
-          <div> 📍 ${cliente.direccion || "Sin dirección"} </div>
-          <div>
-            🧾 ${cliente.iva}
-          </div>
-        </div>
-        <div class="flex justify-end gap-2 mt-5 pt-4 border-t">
-          <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})"
-            class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
-            <i class="fa-solid fa-pen"></i> Editar
-          </button>
-          <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})"
-                  class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar">
-                  <i class="fa-solid fa-trash-can"></i>
-          </button>
-        </div>
-      </article>
-    `).join("");
-}
-/* =====================================================
-   BADGE ESTADO
-===================================================== */
-function badgeEstado(estado) {
-  if (estado == "1") {
-    return `
-      <span
-        class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-        ●Activo
-      </span>
-    `;
-  }
-  return `
-    <span
-      class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-      ●Inactivo
-    </span>
-  `;
-}
-/* =====================================================
-   WHATSAPP
-===================================================== */
-function linkWhatsApp(cliente) {
-  /*
-    WhatsApp necesita el número
-    en formato internacional.
-    Quitamos espacios, guiones y otros caracteres.
-  */
-  let numero =    `${cliente.codigoPais}${cliente.telefono}`
-      .replace(/\D/g, "");
-  return `https://wa.me/${numero}`;
-}
-/* =====================================================
-   SELECCIÓN
-===================================================== */
-function actualizarSeleccion() {
-  const seleccionados = document.querySelectorAll(".checkboxCliente:checked");
-  const acciones = document.getElementById("accionesMasivas");
-  document.getElementById("contadorSeleccionados").textContent = `${seleccionados.length} seleccionados`;
-  if (seleccionados.length) {
-    acciones.classList.remove("hidden");
-  }
-  else {
-    acciones.classList.add("hidden");
-  }
-}
-function seleccionarTodos(estado) {
-  _$$(".checkboxCliente").forEach(checkbox => {
-       checkbox.checked = estado;
-    });
-  actualizarSeleccion();
-}
-function eliminarSeleccionados() {
-  const seleccionados = [...document.querySelectorAll(".checkboxCliente:checked")]
-      .map(input => Number(input.value));
-  if (!seleccionados.length) return;
-  const confirmar =  confirm(      `¿Eliminar ${seleccionados.length} clientes?`    );
-  if (!confirmar) return;
-  clientes = clientes.filter(
-      cliente =>   !seleccionados.includes(cliente.cid)    );
-  guardar();
-  render();
-}
-
-/* =====================================================
-   PAGINACIÓN
-===================================================== */
-function renderPaginacion(totalPaginas) {
-  const contenedor =  document.getElementById("paginacion");
-  contenedor.innerHTML = "";
-  for (    let i = 1;    i <= totalPaginas;    i++  ) {
-    const boton = document.createElement("button");
-      boton.textContent = i;
-      boton.className = `px-3 py-2 rounded-lg border  
-            ${i === paginaActual? "bg-blue-600 text-white": "bg-white"}`;
-      boton.onclick = () => {
-        paginaActual = i;
-        render();
-    };
-    contenedor.appendChild(boton);
-  }
-}
-function fillModalForm(id) {
-  const form = _$("#form");
-  cargarCategoriasIva(); // Cargar categorías de IVA en el modal
-  form.reset();  _$("#_id").value = "";
-  if (id !== null) {
-    const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
-    console.log("Cliente encontrado:", cliente);
-    _$("#_id").value = cliente.cid;
-    _$("#nombre").value = cliente.nombre;
-    _$("#apellido").value = cliente.apellido;
-    _$("#documento").value = cliente.documento;
-    _$("#pais").value = cliente.pais;
-    actualizarCodigoPais();
-    _$("#telefono").value = cliente.telefono;
-    _$("#email").value = cliente.email;
-    _$("#direccion").value = cliente.direccion;
-    _$("#categoriaIva").value = cliente.iva;
-    _$("#estado").value = cliente.estado;
-  }
-}
-
-async function guardar(e){
-  if (e) e.preventDefault();
-	btnSaveUI();	setCampo2('c'); arr1.dttp = 1;
-  try {
-      r = await getSome3 ('clprpames/setClprpame2', {"campos":JSON.stringify(arr1)});
-      console.log(r);  
-      //if(r.status==='success') showToast('¡Cliente guardado correctamente!', 'success');
-	}
-	catch (err)   { console.error('Error en la petición AJAX:', err);
-  		alert('Error al enviar los datos al servidor.');
- 	} 
-	finally {  
-    btnSaveUI(false);
-    clientes = await getData();    
-    render();
-    cerrarModal();
-    //showToast();      //showToast('¡Catálogo actualizado!', 'success');
-  }
-}
- //********* del ******
- async function eliminar(id){
-	if (!confirm('¿ Seguro de eliminar este registro ?')) return;
-		//x = customConfirm.showModal();
-		//console.log(x);
-		arr1.cltp = 1; arr1._id=id;
-       console.log(_id, arr1);
-		try 	{
-      		r = await getSome3 ("Clprpames/delCl", {"campos":JSON.stringify(arr1)});
-      		console.log(r)   ;  
-		}
-	  catch (err)   { 
-  		console.error('Error AJAX:', err);
-  		alert('Ocurrió un error al enviar los datos.');
- 	  } 
-	  finally {  	
-        clientes = await getData();    
-        render();
-        cerrarModal();
- 	  }
- }
-
- /**
- * Envía datos a un servidor usando Fetch API.
- * @param {string} url - La dirección de destino.
- * @param {Object|FormData} formData - Los datos a enviar (Objeto plano o FormData).
- * @param {Function|null} fn - Función callback opcional que recibe la respuesta del servidor.
- */
-async function save2(url, formData = {}, fn = null) {
-    try {
-        // 1. Detectar si es FormData, si no, convertir el objeto a JSON
-        const esFormData = formData instanceof FormData;
-        const opciones = {
-            method: 'POST',
-            body: esFormData ? formData : JSON.stringify(formData),
-            headers: {}
-        };
-        // 2. Si es JSON, necesitamos especificar el Content-Type
-        // Nota: Si es FormData, el navegador asigna el Content-Type y el boundary automáticamente
-        if (!esFormData) { opciones.headers['Content-Type'] = 'application/json';        }
-        // 3. Realizar la petición
-        const respuesta = await fetch(url, opciones);
-        // 4. Validar si la respuesta HTTP es correcta (status 200-299)
-        if (!respuesta.ok) { throw new Error(`Error en la petición: ${respuesta.status} ${respuesta.statusText}`);}
-        // 5. Procesar los datos (asumiendo que el servidor responde con JSON)
-        const datos = await respuesta.json();
-        // 6. Ejecutar el callback si fue proporcionado
-        if (typeof fn === 'function') {            fn(datos);        }
-        return datos;
-    } catch (error) {
-        console.error('Error al guardar:', error.message);
-        // Aquí puedes agregar alertas globales como Swal.fire() o toastr si usas alguna librería
-        throw error; 
-    }
-}
+let categIva = []; let clientes = [];
+async function initApp() {
+  try {
+    categIva = await getCatIva();
+    clientes = await getData();
+    render();
+    //cargarCategoriasIva();
+    if (android) switchView('cards');  // cambiarVista('cards');
+    } catch (error) {  console.log(error);    }
+}
+const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
+const getCatIva = async () => {return await getSome3('Data/getDataCmb/22',{'src':'data'});}
+
+
+let vistaActual =  localStorage.getItem("vistaClientes") || "tabla";
+let paginaActual = 1;
+const clientesPorPagina = 6;
+/* =====================================================
+   PAISES
+===================================================== */
+const paises = {
+  AR: "+54",
+  UY: "+598",
+  CL: "+56",
+  BR: "+55",
+  PY: "+595",
+  BO: "+591",
+  ES: "+34"
+};
+/* =====================================================
+   INICIO
+===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  actualizarCodigoPais();
+  initApp();
+});
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+    function guardarDatos() {
+      localStorage.setItem(    "clientes",    JSON.stringify(clientes)  );
+      localStorage.setItem(    "categoriasIva",    JSON.stringify(categoriasIva)  );
+    }
+function guardarCatIva(event) {
+  event.preventDefault();
+  const formData = new FormData(this);  
+  save2(base_url + 'addr/setaddr', formData, (result) => {
+    if (result.success) {
+      alert('¡Categoría de IVA guardada correctamente!'); 
+    } else {
+      alert('Error: ' + result.message);
+    }
+  });
+  //localStorage.setItem("categoriasIva", JSON.stringify(categoriasIva));
+}
+
+/* =====================================================
+   CATEGORIAS IVA
+===================================================== */
+function cargarCategoriasIva() {
+  const select = document.getElementById("categoriaIva");
+  select.innerHTML = ` <option hidden value=0>seleccione  </option>`;
+  categIva.forEach(categoria => {
+    const option = document.createElement("option");
+    option.value = categoria.fieldId;
+    option.textContent = categoria.fieldName;
+    select.appendChild(option);
+  });
+}
+
+
+
+function abrirModalIva() {  show2(['modaliva']);}
+function cerrarModalIva() {  hide2(['modaliva']);}
+
+/* =====================================================
+   CODIGO DE PAIS
+===================================================== */
+function actualizarCodigoPais() {
+  const pais = _$("#pais").value;
+  _$("#codigoPais").value = paises[pais] || "";
+}
+// ============================================================
+// ESTADO
+// ============================================================
+const state = {
+ 
+  sortBy: "nombre",
+  sortDirection: "asc",
+  page: 1,
+  pageSize: 10,
+  selected: new Set(),
+  vistaCards: true
+};
+// ============================================================
+// ORDENAMIENTO
+// ============================================================
+function sortData(list) {
+  return [...list].sort((a, b) => {
+    let valueA = a[state.sortBy];
+    let valueB = b[state.sortBy];
+    if (typeof valueA === "string") {
+      valueA = valueA.toLowerCase();
+      valueB = valueB.toLowerCase();
+    }
+    if (valueA < valueB) return state.sortDirection === "asc" ? -1 : 1;
+    if (valueA > valueB) return state.sortDirection === "asc" ? 1 : -1;
+    return 0;
+  });
+}
+
+// ============================================================
+// ORDENAMIENTO
+// ============================================================
+document.querySelectorAll(".sortable")
+  .forEach(header => {
+  	console.log(header);
+    header.addEventListener("click", () => {
+        const field = header.dataset.sort;
+        if (state.sortBy === field) {
+          state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+        } else  state.sortBy = field; state.sortDirection = "asc";
+        state.page = 1;
+        render();
+      }
+    );
+  });
+
+  function updateSortIndicators() {
+  document.querySelectorAll(".sortable").forEach(header => {
+      const icon = header.querySelector(".sort-icon");
+      if ( header.dataset.sort === state.sortBy ) {
+        icon.textContent = state.sortDirection === "asc"? " ↑" : " ↓";
+        icon.className ="sort-icon text-gray-900";
+      } else {
+        icon.textContent = " ↕";
+        icon.className = "sort-icon text-gray-300";      
+      }
+    });
+}
+/* =====================================================
+   RENDER
+===================================================== */
+function render() {
+  const busqueda = document.getElementById("busqueda").value.toLowerCase();
+  const filtro =_$("#filtroEstado").value;
+  console.log(filtro);
+  let filtrados =  clientes.filter(cliente => {
+      const texto =
+        `${cliente.nombre}
+         ${cliente.apellido}
+         ${cliente.documento}
+         ${cliente.telefono}
+         ${cliente.email}`
+          .toLowerCase();
+      const coincideBusqueda = texto.includes(busqueda);
+      const coincideEstado = filtro === "todos" || cliente.estado == filtro;
+      return coincideBusqueda && coincideEstado;
+    });
+    filtrados = sortData(filtrados);
+  const totalPaginas = Math.max(1, Math.ceil( filtrados.length / clientesPorPagina));
+  if (paginaActual > totalPaginas)     paginaActual = totalPaginas;
+  const inicio =(paginaActual - 1) * clientesPorPagina;
+  const pagina =    filtrados.slice(      inicio,      inicio + clientesPorPagina    );
+  const total = filtrados.length;
+  //console.log("Clientes filtrados:", filtrados, paginaActual, totalPaginas, pagina);
+  resultCount.textContent =`${total} ${total === 1? "cliente": "clientes"}`;              
+  renderTabla(pagina);
+  renderTarjetas(pagina);
+  renderPaginacion(totalPaginas);
+}
+/* =====================================================
+   TABLA
+===================================================== */
+function renderTabla(lista) {
+  const tbody = document.getElementById("tablaClientes");
+  if (!lista.length) {
+    tbody.innerHTML = `
+      <tr><td colspan="7" class="p-10 text-center text-gray-500">
+          No se encontraron clientes. </td> 
+      </tr> `;
+    return;
+  }
+  //console.log(lista);
+  tbody.innerHTML = lista.map(cliente => `
+      <tr class="border-b hover:bg-gray-50">
+        <td class="p-4">
+          <input type="checkbox" class="checkboxCliente"
+            value="${cliente.cid}"
+            onchange="actualizarSeleccion()">
+        </td>
+        <td class="p-4">
+          <div class="font-semibold">
+            ${cliente.nombre} ${cliente.apellido}
+          </div>
+          <div class="text-xs text-gray-500">
+            ${cliente.email || "Sin email"}
+          </div>
+        </td>
+        <td class="p-4">
+          ${cliente.documento || "-"}
+        </td>
+        <td class="p-4">
+          <a href="${linkWhatsApp(cliente)}" target="_blank"
+            class="text-green-600 hover:underline">
+            ${cliente.telefono}
+          </a>
+        </td>
+        <td class="p-4"> ${cliente.iva} </td>
+        <td class="p-4"> ${badgeEstado(cliente.estado)} </td>
+        <td class="p-4 text-right whitespace-nowrap">
+            <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})" class="_edit p-2 text-gray-400 hover:text-indigo-600 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
+            <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})" class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar"><i class="fa-solid fa-trash-can"></i></button>
+        </td>
+      </tr>
+    `).join("");
+}
+/* ========   TARJETAS  ================================= */
+function renderTarjetas(lista) {
+  const contenedor = document.getElementById("vistaTarjetas");
+  if (!lista.length) {
+    contenedor.innerHTML = `
+      <div class="col-span-full bg-white rounded-xl p-10 text-center text-gray-500">
+        No se encontraron clientes.
+      </div>    `;
+    return;
+  }
+  contenedor.innerHTML =
+    lista.map(cliente => `
+      <article
+        class="bg-white rounded-xl shadow-sm p-5 border">
+        <div class="flex justify-between items-start mb-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-11 h-11 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+              ${cliente.nombre[0] || ""} ${cliente.apellido[0] || ""}
+            </div>
+            <div>
+              <h3 class="font-bold">${cliente.nombre} ${cliente.apellido} </h3>
+              <p class="text-xs text-gray-500">
+                ${cliente.documento || "Sin documento"}
+              </p>
+            </div>
+          </div>
+          ${badgeEstado(cliente.estado)}
+        </div>
+        <div class="space-y-2 text-sm">
+          <div>
+            <a href="${linkWhatsApp(cliente)}" target="_blank"
+              class="text-green-600 font-medium hover:underline">
+              📱 ${cliente.codigoPais||''}
+              ${cliente.telefono}
+            </a>
+          </div>
+          <div>
+            ✉️ ${cliente.email || "Sin email"}
+          </div>
+          <div> 📍 ${cliente.direccion || "Sin dirección"} </div>
+          <div>
+            🧾 ${cliente.iva}
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-5 pt-4 border-t">
+          <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})"
+            class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
+            <i class="fa-solid fa-pen"></i> Editar
+          </button>
+          <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})"
+                  class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar">
+                  <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </article>
+    `).join("");
+}
+/* =====================================================
+   BADGE ESTADO
+===================================================== */
+function badgeEstado(estado) {
+  if (estado == "1") {
+    return `
+      <span
+        class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+        ●Activo
+      </span>
+    `;
+  }
+  return `
+    <span
+      class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+      ●Inactivo
+    </span>
+  `;
+}
+/* =====================================================
+   WHATSAPP
+===================================================== */
+function linkWhatsApp(cliente) {
+  /*
+    WhatsApp necesita el número
+    en formato internacional.
+    Quitamos espacios, guiones y otros caracteres.
+  */
+  let numero =    `${cliente.codigoPais}${cliente.telefono}`
+      .replace(/\D/g, "");
+  return `https://wa.me/${numero}`;
+}
+/* =====================================================
+   SELECCIÓN
+===================================================== */
+function actualizarSeleccion() {
+  const seleccionados = document.querySelectorAll(".checkboxCliente:checked");
+  const acciones = document.getElementById("accionesMasivas");
+  document.getElementById("contadorSeleccionados").textContent = `${seleccionados.length} seleccionados`;
+  if (seleccionados.length) {
+    acciones.classList.remove("hidden");
+  }
+  else {
+    acciones.classList.add("hidden");
+  }
+}
+function seleccionarTodos(estado) {
+  _$$(".checkboxCliente").forEach(checkbox => {
+       checkbox.checked = estado;
+    });
+  actualizarSeleccion();
+}
+function eliminarSeleccionados() {
+  const seleccionados = [...document.querySelectorAll(".checkboxCliente:checked")]
+      .map(input => Number(input.value));
+  if (!seleccionados.length) return;
+  const confirmar =  confirm(      `¿Eliminar ${seleccionados.length} clientes?`    );
+  if (!confirmar) return;
+  clientes = clientes.filter(
+      cliente =>   !seleccionados.includes(cliente.cid)    );
+  guardar();
+  render();
+}
+
+/* =====================================================
+   PAGINACIÓN
+===================================================== */
+function renderPaginacion(totalPaginas) {
+  const contenedor =  document.getElementById("paginacion");
+  contenedor.innerHTML = "";
+  for (    let i = 1;    i <= totalPaginas;    i++  ) {
+    const boton = document.createElement("button");
+      boton.textContent = i;
+      boton.className = `px-3 py-2 rounded-lg border  
+            ${i === paginaActual? "bg-blue-600 text-white": "bg-white"}`;
+      boton.onclick = () => {
+        paginaActual = i;
+        render();
+    };
+    contenedor.appendChild(boton);
+  }
+}
+function fillModalForm(id) {
+  const form = _$("#form");
+  
+  form.reset();  _$("#_id").value = "";
+  cargarCategoriasIva(); // Cargar categorías de IVA en el modal
+  if (id !== null) {
+    const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
+    console.log("Cliente encontrado:", cliente);
+    _$("#_id").value = cliente.cid;
+    _$("#nombre").value = cliente.nombre;
+    _$("#apellido").value = cliente.apellido;
+    _$("#documento").value = cliente.documento;
+    _$("#pais").value = cliente.pais;
+    actualizarCodigoPais();
+    _$("#telefono").value = cliente.telefono;
+    _$("#email").value = cliente.email;
+    _$("#direccion").value = cliente.direccion;
+    _$("#categoriaIva").value = cliente.iva;
+    _$("#estado").value = cliente.estado;
+  }
+}
+
+async function guardar(e){
+  if (e) e.preventDefault();
+	btnSaveUI();	setCampo2('c'); arr1.dttp = 1;
+  try {
+      r = await getSome3 ('clprpames/setClprpame2', {"campos":JSON.stringify(arr1)});
+      console.log(r);  
+      //if(r.status==='success') showToast('¡Cliente guardado correctamente!', 'success');
+	}
+	catch (err)   { console.error('Error en la petición AJAX:', err);
+  		alert('Error al enviar los datos al servidor.');
+ 	} 
+	finally {  
+    btnSaveUI(false);
+    clientes = await getData();    
+    render();
+    cerrarModal();
+    //showToast();      //showToast('¡Catálogo actualizado!', 'success');
+  }
+}
+ //********* del ******
+ async function eliminar(id){
+	if (!confirm('¿ Seguro de eliminar este registro ?')) return;
+		//x = customConfirm.showModal();
+		//console.log(x);
+		arr1.cltp = 1; arr1._id=id;
+       console.log(_id, arr1);
+		try 	{
+      		r = await getSome3 ("Clprpames/delCl", {"campos":JSON.stringify(arr1)});
+      		console.log(r)   ;  
+		}
+	  catch (err)   { 
+  		console.error('Error AJAX:', err);
+  		alert('Ocurrió un error al enviar los datos.');
+ 	  } 
+	  finally {  	
+        clientes = await getData();    
+        render();
+        cerrarModal();
+ 	  }
+ }
+
+ /**
+ * Envía datos a un servidor usando Fetch API.
+ * @param {string} url - La dirección de destino.
+ * @param {Object|FormData} formData - Los datos a enviar (Objeto plano o FormData).
+ * @param {Function|null} fn - Función callback opcional que recibe la respuesta del servidor.
+ */
+async function save2(url, formData = {}, fn = null) {
+    try {
+        // 1. Detectar si es FormData, si no, convertir el objeto a JSON
+        const esFormData = formData instanceof FormData;
+        const opciones = {
+            method: 'POST',
+            body: esFormData ? formData : JSON.stringify(formData),
+            headers: {}
+        };
+        // 2. Si es JSON, necesitamos especificar el Content-Type
+        // Nota: Si es FormData, el navegador asigna el Content-Type y el boundary automáticamente
+        if (!esFormData) { opciones.headers['Content-Type'] = 'application/json';        }
+        // 3. Realizar la petición
+        const respuesta = await fetch(url, opciones);
+        // 4. Validar si la respuesta HTTP es correcta (status 200-299)
+        if (!respuesta.ok) { throw new Error(`Error en la petición: ${respuesta.status} ${respuesta.statusText}`);}
+        // 5. Procesar los datos (asumiendo que el servidor responde con JSON)
+        const datos = await respuesta.json();
+        // 6. Ejecutar el callback si fue proporcionado
+        if (typeof fn === 'function') {            fn(datos);        }
+        return datos;
+    } catch (error) {
+        console.error('Error al guardar:', error.message);
+        // Aquí puedes agregar alertas globales como Swal.fire() o toastr si usas alguna librería
+        throw error; 
+    }
+}

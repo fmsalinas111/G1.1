@@ -90,10 +90,8 @@ function render() {
   dataTable.innerHTML = "";
   if (pageDatens.length === 0) { emptyState.classList.remove("hidden" );
   } else {emptyState.classList.add("hidden");  }
-  //_$('#vistaCards').innerHTML = "";
-  if(state.vistaCards) {
-    // Renderizar en vista de tarjetas
-        _$('#vistaCards').innerHTML = filtered.map(p => `
+
+        _$('#vistaTarjetas').innerHTML = filtered.map(p => `
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative flex flex-col justify-between hover:shadow-md transition" did =${p.did}>
             <div class="flex">
               <div class="relative mb-1">
@@ -115,8 +113,7 @@ function render() {
             </div>
           </div> 
       `).join('');  //cards
-    return;
-  }
+    
   pageDatens.forEach(datens => {
     const row = document.createElement("tr");
     row.className = "hover:bg-gray-50 transition";
@@ -387,6 +384,7 @@ function toggleProduct(id) { //bulking
 render();
 // Alternar Vista Tabla / Cards
 function cambiarVista(tipo) {
+	console.log("popo");
   const tabla = document.getElementById('vistaTabla');
   const cards = document.getElementById('vistaCards');
   const btnTabla = document.getElementById('btnVistaTabla');
