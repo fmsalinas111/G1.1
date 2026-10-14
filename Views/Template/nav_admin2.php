@@ -56,45 +56,44 @@
                         <?php }?>
         
                         <!-- Contenedor del menú de usuario -->
-                        
+                         <?php if (USR()>0) {?>
                         <div class="  umc relative inline-block text-left" id="user-menu-container">
-                        <!-- Botón del avatar / nombre de usuario -->
-                        <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
-                            class="flex items-center gap-2 rounded-full bg-slate-100 p-1.5 px-3 text-sm 
-                            font-semibold text-slate-800 hover:bg-slate-200 focus:outline-none focus:ring-2 
-                            focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                            <span id="un" class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-300 text-xs font-bold uppercase text-slate-700">
-                                <?=USRNAME();?>
-                            </span>
-                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <!-- Menú desplegable (Oculto por defecto) -->
-                        <div 
-                            id="user-menu-dropdown" class="hidden absolute right-0 z-50 mt-2 w-48 origin-top-right 
-                                rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            role="menu"  aria-orientation="vertical"  aria-labelledby="user-menu-button">
-                            <a href="profile" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" role="menuitem">
+                            <!-- Botón del avatar / nombre de usuario -->
+                            <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
+                                class="flex items-center gap-2 rounded-full bg-slate-100 p-1.5 px-3 text-sm 
+                                font-semibold text-slate-800 hover:bg-slate-200 focus:outline-none focus:ring-2 
+                                focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                                <span id="un" class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-300 text-xs font-bold uppercase text-slate-700">
+                                    <?=USRNAME();?>
+                                </span>
                                 <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
-                                Mi Perfil
-                            </a>
-                            
-                            <div class="my-1 border-t border-slate-100">
-							</div>
+                            </button>
 
-                            <a href="logout" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50" role="menuitem">
-                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
-                                Cerrar Sesión
-                            </a>
-                        </div>
-                        </div>
+                            <!-- Menú desplegable (Oculto por defecto) -->
+                            <div id="user-menu-dropdown" class="hidden absolute right-0 z-50 mt-2 w-48 origin-top-right 
+                                    rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu"  aria-orientation="vertical"  aria-labelledby="user-menu-button">
+                                <a href="profile" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" role="menuitem">
+                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    Mi Perfil
+                                </a>
+                                
+                                <div class="my-1 border-t border-slate-100">
+                                </div>
 
+                                <a href="logout" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50" role="menuitem">
+                                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Cerrar Sesión
+                                </a>
+                            </div>
+                        </div>
+                        <?php }?>
 
                     </div>
                 </header>

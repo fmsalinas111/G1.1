@@ -1,5 +1,3 @@
-if (!logged)hide2(["umc" ]);
-
 // ==========================================
 // CONFIGURACIÓN GLOBAL DE FORMATO DE MONEDA
 // ==========================================
@@ -460,17 +458,7 @@ function setGridColumns(cols) {
         btn1.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition text-slate-600 hover:bg-slate-100";
     }
 }
-const btnBackToTop = document.getElementById('btn-back-to-top');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        btnBackToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-    } else {
-        btnBackToTop.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-    }
-});
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+
 // ==========================================
 // CONTROL DEL MENÚ MÓVIL (HAMBURGUESA)
 // ==========================================
@@ -483,4 +471,25 @@ function toggleMobileMenu() {
     // Alternar visibilidad del fondo oscuro (overlay)
     backdrop.classList.toggle('opacity-0');
     backdrop.classList.toggle('pointer-events-none');
+}
+
+const btnBackToTop = document.getElementById('btn-back-to-top');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        // Mostrar botón: quitamos las clases de oculto y agregamos las de visible
+        btnBackToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        btnBackToTop.classList.add('opacity-100', 'translate-y-0');
+    } else {
+        // Ocultar botón: devolvemos las clases que lo esconden
+        btnBackToTop.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        btnBackToTop.classList.remove('opacity-100', 'translate-y-0');
+    }
+});
+
+function scrollToTop() {
+    window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+    });
 }

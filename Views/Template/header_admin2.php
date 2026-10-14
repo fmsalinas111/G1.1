@@ -48,4 +48,5 @@ if ($termux){
         </style>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $favicon; ?>">
     </head>
-    <?php require_once('nav_admin2.php'); ?>
+    <?php 
+    require_once('nav_admin2.php'); ?>
