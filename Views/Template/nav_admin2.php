@@ -15,7 +15,7 @@
                 </div>
                 <?php if($isLogged){  include_once "navlogged2.php";
                 }else{?>
-                <p> desconectado </p>
+                
                 <nav class="p-4 space-y-2">
                     <a href="#inicio" class="menu-link block px-4 py-3 rounded-xl hover:bg-indigo-50">🏠 Inicio</a>
                     <a href="#quienes-somos" class="menu-link block px-4 py-3 rounded-xl hover:bg-indigo-50">👥 Quiénes somos</a>
@@ -56,7 +56,8 @@
                         <?php }?>
         
                         <!-- Contenedor del menú de usuario -->
-                        <div class="relative inline-block text-left" id="user-menu-container">
+                        
+                        <div class="  umc relative inline-block text-left" id="user-menu-container">
                         <!-- Botón del avatar / nombre de usuario -->
                         <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
                             class="flex items-center gap-2 rounded-full bg-slate-100 p-1.5 px-3 text-sm 
@@ -82,7 +83,8 @@
                                 Mi Perfil
                             </a>
                             
-                            <div class="my-1 border-t border-slate-100"></div>
+                            <div class="my-1 border-t border-slate-100">
+							</div>
 
                             <a href="logout" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50" role="menuitem">
                                 <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

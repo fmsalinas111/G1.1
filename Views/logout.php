@@ -2,7 +2,12 @@
 	//session_start();
 	$appId=APP();  $isTermux=termux(); 
   if ($isTermux) {
-	echo"<h1>fin</h1>";
+	echo"<h1>fin</h1>
+
+<script>
+    	localStorage.logged=false;
+</script>";
+session_destroy();
 	die();
 	}
 
