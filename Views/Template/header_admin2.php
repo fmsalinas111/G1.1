@@ -16,14 +16,9 @@ if ($termux){
 		hover:bg-blue-700 text-white font-semibold py-2.5 
 		px-5 rounded-lg shadow-md transition duration-200 ease-in-out text-center"
 		> Iniciar Sesión</a> ';
-	}else{
-		
-		if(!USR()&&$pageApp) {
-			header('location:'.base_url().'login'); //exit();
-		}
+	}else{	
+		if(!USR()&&$pageApp) 	header('location:'.base_url().'login'); //exit();
      }
-			
-		
     ?>
     <html lang="es" class="scroll-smooth">
     <head>
@@ -40,11 +35,9 @@ if ($termux){
             $hi = (h($data['headItems'],[])); foreach ($hi as $i) { echo $i.PHP_EOL; }        
         ?>
         <style>
-            html, body {
-            overflow: hidden;
-            height: 100%;
-            margin: 0;
-            }
+    /* Cambia esto para permitir el scroll en toda la página */
+        <style>
+             html, body { /*overflow: hidden; */ height: 100%; margin: 0;} 
         </style>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $favicon; ?>">
     </head>

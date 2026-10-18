@@ -176,6 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-    </script>
+</script>
 
 <!-- === NAV END=== -->

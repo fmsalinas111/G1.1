@@ -299,6 +299,12 @@ $("closeOrderModal").onclick = () => {
 $("downloadImageBtn").onclick = descargarImagen;
 $("whatsappBtn").onclick = compartirWhatsApp;
 
+
+
+
+//W3Schools Full Access - your next career move
+
+
 // Inicialización
 llenarFiltros();
 render();

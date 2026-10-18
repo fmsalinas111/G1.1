@@ -126,7 +126,7 @@ console.log(`Número formateado según el navegador del usuario (${localeDelNave
 /*
 Abre el archivo del que quieres eliminar las líneas vacías en Visual Studio Code.
 Pulse Ctrl+ H(Windows/Linux) o Command+ H(Mac) para abrir el panel "Buscar y reemplazar".
-En el campo “Buscar”, escriba:^\s*$\n
+En el campo “Buscar”, escriba: ^\s*$\n
 En el campo “Reemplazar”, déjelo en blanco.
 Asegúrese de que el botón "Expresión regular" esté seleccionado en el panel "Buscar y reemplazar".
 Haz clic en el botón “Reemplazar todo”.

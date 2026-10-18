@@ -1,10 +1,9 @@
-// ==========================================
 // CONFIGURACIÓN GLOBAL DE FORMATO DE MONEDA
-// ==========================================
 const CURRENCY_CONFIG = {
     decimals: 0,         // Cantidad de decimales (ej: 2 o 0)
     showSymbol: false     // true = incluye el símbolo detectado según el país del navegador
 };
+
 // Detectar automáticamente el símbolo de moneda según la localización del cliente
 const USER_LOCALE = navigator.language || 'es-AR';
 let DETECTED_SYMBOL = '';
@@ -487,9 +486,27 @@ window.addEventListener('scroll', () => {
     }
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.getElementById('btn-back-to-top');
+
+    if (backToTopBtn) {
+        // Escuchar el scroll de toda la ventana del navegador
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                // Mostrar botón
+                backToTopBtn.classList.remove('opacity-10', 'translate-y-4', 'pointer-events-none');
+                backToTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                // Ocultar botón
+                backToTopBtn.classList.add('opacity-10', 'translate-y-4', 'pointer-events-none');
+                backToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+    }
+});
+
+// Función para subir al inicio usando la ventana global
 function scrollToTop() {
-    window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
