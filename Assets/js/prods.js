@@ -6,7 +6,8 @@ async function initApp() {
   try {
     products = await getProducts();
     categories = await getCats();
-    renderCategorySelect(getUniqueCats(products));
+    renderCategorySelectModal(categories); //
+    //renderCategorySelect(getUniqueCats(products));
     render();
     if (android)  switchView('cards');  // cambiarVista('cards');
     } catch (error) {        console.log(error);    }
@@ -467,8 +468,8 @@ render();
 // ============================================================
 // RENDER edit modal
 // ============================================================
-_$('#vistaTabla').addEventListener('click', e => clickProd(e));
-_$('#vistaTarjetas').addEventListener('click', e => clickProd(e));
+//_$('#vistaTabla').addEventListener('click', e => clickProd(e));
+//_$('#vistaTarjetas').addEventListener('click', e => clickProd(e));
 
 const clickProd = data =>{
     cell = data.target;
@@ -501,13 +502,14 @@ const clickProd = data =>{
 }
 function fillModalForm(id) {
   const form = _$("#form"); form.reset(); _$('#_id').value = "";
+  
   if (id !== null) {
   	const foundEl = products.find(p => p.prid == id);
     _$('#prodNombre').value = foundEl.name;
     _$('#prodSku').value = foundEl.art||'';
-    //document.getElementById('prodCategoria').tomselect.setValue(foundEl.cid);
-    _$('#prodCategoria').value = foundEl.cid;
-	_$('#prodPrecioLista').value = foundEl.price;
+    _$('#prodCategoria').tomselect.setValue(foundEl.cid);
+    //_$('#prodCategoria').value = foundEl.cid;
+	  _$('#prodPrecioLista').value = foundEl.price;
     _$('#productoId').value = foundEl.prid;
     _$('#prodCurva').value = foundEl.multiplo;
     _$('#prodActivo').checked = foundEl.estado;

@@ -34,10 +34,11 @@ if ($termux){
         <?php  }  //end eruda   #header personalizado
             $hi = (h($data['headItems'],[])); foreach ($hi as $i) { echo $i.PHP_EOL; }        
         ?>
+        
         <style>
-    /* Cambia esto para permitir el scroll en toda la página */
-        <style>
-             html, body { /*overflow: hidden; */ height: 100%; margin: 0;} 
+             html, body { 
+                /*overflow: hidden; */  /*permite el scroll en toda la página */
+                height: 100%; margin: 0;} 
         </style>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $favicon; ?>">
     </head>

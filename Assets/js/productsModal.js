@@ -259,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {//td?
 
 ////////////////////////////
 function renderCategorySelectModal(cats) {
-  //console.log('renderCategorySelectModal', cats);
     const select = document.getElementById('prodCategoria');
     const padreSelect = document.getElementById('catPadreId');
     if (!select) return;    

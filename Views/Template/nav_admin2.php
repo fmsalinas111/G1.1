@@ -128,6 +128,7 @@
             }
 
             function abrirModal(id = null) { //_$$('[name="c"]')
+                console.log('trackng modal', 'from navadmin');
                 _$('#titleModal').innerText = id ? 'Editar' : 'Nuevo ';
                 _$("#mainModal").classList.remove('hidden');               
                 fillModalForm(id);
