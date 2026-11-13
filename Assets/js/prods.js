@@ -7,7 +7,11 @@ async function initApp() {
     products = await getProducts();
     categories = await getCats();
     renderCategorySelectModal(categories); //
+<<<<<<< HEAD
     renderCategorySelect(getUniqueCats(products));
+=======
+    //renderCategorySelect(getUniqueCats(products));
+>>>>>>> c4635016472cb24e97ff7e310795d29671c5fe90
     render();
     if (android)  switchView('cards');  // cambiarVista('cards');
     } catch (error) {        console.log(error);    }

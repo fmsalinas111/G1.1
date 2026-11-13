@@ -76,8 +76,13 @@ class Usuarios extends Controllers {
         $cell = strClean($_POST['cell']); 
         $gallery = intval(strClean(h($_POST['gallery'],0)));
 
+<<<<<<< HEAD
         //$app   = intval(strClean(h($_POST['app'],saca_dominio(server(),7)==='gestion'?5:11))); //app
         $app = intval(strClean($_POST['app'])); //app
+=======
+        $app   = intval(strClean(h($_POST['app'],saca_dominio(server(),7)==='gestion'?5:11))); //app
+        //$intApp = strClean($_POST['app']); //cell
+>>>>>>> c4635016472cb24e97ff7e310795d29671c5fe90
         //definir la app por defecto: 5, 11, klk?
         //$intApp = ($gallery<0)? 11: h($_SESSION['app'],5); //app
         //echo 'gallery: '.$intApp.'<br>tienda: '.h($_POST['tienda']);

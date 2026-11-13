@@ -128,10 +128,17 @@
                 }
             }
 
+<<<<<<< HEAD
             function abrirModal(id = null, modalId = "mainModal") { //_$$('[name="c"]')
                 console.log('trackng modal', 'from navadmin', id);
                 _$('.titlemodal').innerText = id ? 'Editar' : 'Nuevo ';
                 _$("#"+modalId).classList.remove('hidden');
+=======
+            function abrirModal(id = null) { //_$$('[name="c"]')
+                console.log('trackng modal', 'from navadmin');
+                _$('#titleModal').innerText = id ? 'Editar' : 'Nuevo ';
+                _$("#mainModal").classList.remove('hidden');               
+>>>>>>> c4635016472cb24e97ff7e310795d29671c5fe90
                 fillModalForm(id);
                 const elementoAutofocus = _$("#"+modalId).querySelector('[autofocus]');
                 if (elementoAutofocus) {elementoAutofocus.focus();}

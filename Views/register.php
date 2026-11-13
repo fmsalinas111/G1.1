@@ -38,7 +38,10 @@
   <div class="card-header"><h3 class="text-center font-weight-light my-2">Crear cuenta</h3></div>
     <div class="card-body">
       <form class="needs-validation" novalidate id="formulario">
+<<<<<<< HEAD
         <input id="app" style="display: none;" value=5/>
+=======
+>>>>>>> c4635016472cb24e97ff7e310795d29671c5fe90
         <div class="form-group"> </div>                                          
           <div class="form-row" >
             <div class="col-md-12">
