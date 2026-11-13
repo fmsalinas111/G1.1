@@ -2,6 +2,9 @@
    headerAdmin2($data); 
    getModal('_clpr', $data);   
    //getModal('_cat',$data);  miniModal
+   
+  echo "<script >      const clType =".clType().";      </script>";  
+
 ?>
 <style>
   /* body { font-family: Arial, sans-serif;}*/

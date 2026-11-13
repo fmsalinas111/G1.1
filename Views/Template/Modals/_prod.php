@@ -6,7 +6,6 @@
         <input type="hidden" id="_id" name="c">
         <input name="c" type="hidden" id="productoId" name="id" value="" >
 
-
                     <!-- Sección 1: Datos Principales -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div class="sm:col-span-2">

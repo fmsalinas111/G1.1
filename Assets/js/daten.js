@@ -1,16 +1,14 @@
-let  datens = [];   let Dtype = parseInt(localStorage.getItem('dttp')); 
-console.log(Dtype);
+let  datens = [];   let Dtype = parseInt(getLS('dttp')); 
 async function initApp() {
   try {
     datens = await getDatos();
     title = await setTitle();
     titpage.innerText = title[1];
-    render(); //if (android) cambiarVista('cards');
+    render(); 
+    if (android) switchView('cards');
     } catch (error) {  console.log(error); }
 }
-const getDatos = async () => {
-  return await getSome3('daten/getData/' + Dtype);
-}
+const getDatos = async () => {return await getSome3('daten/getData/' + Dtype);}
 const setTitle = async () => {return await getSome3('Daten/setTitle/'+Dtype); }
 /* =================   INICIO================================ */
 document.addEventListener("DOMContentLoaded", () => {

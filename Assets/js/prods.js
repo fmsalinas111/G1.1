@@ -6,6 +6,7 @@ async function initApp() {
   try {
     products = await getProducts();
     categories = await getCats();
+    renderCategorySelectModal(categories); //
     renderCategorySelect(getUniqueCats(products));
     render();
     if (android)  switchView('cards');  // cambiarVista('cards');
@@ -467,8 +468,8 @@ render();
 // ============================================================
 // RENDER edit modal
 // ============================================================
-_$('#vistaTabla').addEventListener('click', e => clickProd(e));
-_$('#vistaTarjetas').addEventListener('click', e => clickProd(e));
+//_$('#vistaTabla').addEventListener('click', e => clickProd(e));
+//_$('#vistaTarjetas').addEventListener('click', e => clickProd(e));
 
 const clickProd = data =>{
     cell = data.target;
@@ -501,13 +502,14 @@ const clickProd = data =>{
 }
 function fillModalForm(id) {
   const form = _$("#form"); form.reset(); _$('#_id').value = "";
+  
   if (id !== null) {
   	const foundEl = products.find(p => p.prid == id);
     _$('#prodNombre').value = foundEl.name;
     _$('#prodSku').value = foundEl.art||'';
-    //document.getElementById('prodCategoria').tomselect.setValue(foundEl.cid);
-    _$('#prodCategoria').value = foundEl.cid;
-	_$('#prodPrecioLista').value = foundEl.price;
+    _$('#prodCategoria').tomselect.setValue(foundEl.cid);
+    //_$('#prodCategoria').value = foundEl.cid;
+	  _$('#prodPrecioLista').value = foundEl.price;
     _$('#productoId').value = foundEl.prid;
     _$('#prodCurva').value = foundEl.multiplo;
     _$('#prodActivo').checked = foundEl.estado;
@@ -543,7 +545,7 @@ function abrirModalNuevo() {
 function cerrarModalProducto() { _$('#modalProductos').classList.add('hidden');}
 
 function filter(e) {
-    const select = gId(e.target.id);
+    const select = _$("#" + e.target.id);
     if (e.target.id == 'filtroCategoria') state.category = select.options[select.selectedIndex].text;
     console.log('filter', e.target.id, state.category);
     render();
@@ -551,10 +553,10 @@ function filter(e) {
 
 // Alternar Vista Tabla / Cards
 function cambiarVista(tipo) {
-  const tabla = document.getElementById('vistaTabla');
-  const cards = document.getElementById('vistaTarjetas');
-  const btnTabla = document.getElementById('btnVistaTabla');
-  const btnCards = document.getElementById('btnVistaCards');
+  const tabla = _$("#vistaTabla");
+  const cards = _$("#vistaTarjetas");
+  const btnTabla = _$("#btnVistaTabla");
+  const btnCards = _$("#btnVistaCards");
   if (tipo === 'tabla') {
     show2(['infoTabla']);
     tabla.classList.remove('hidden'); cards.classList.add('hidden'); state.vistaCards = false;

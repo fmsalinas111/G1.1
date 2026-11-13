@@ -363,6 +363,9 @@ mariaDB
 	reemplazar delimiter $$ por delimiter //
 	reemplazar `gestion7`@`localhost` por `root`@`localhost`
 
+	• ❌ Sintaxis incorrecta (Falla): CURDATE() o CURRENT_DATE
+	• Sintaxis correcta (Funciona): (CURDATE()) o (CURRENT_DATE())
+
 	Pasos para eliminar líneas vacíasAbre el panel de Buscar y Reemplazar presionando Ctrl + H (en Windows o Linux) o Cmd + Option + F / Cmd + H (en Mac).Activa el botón de Expresión regular (icono .*) o presiona Alt + R.En el campo Buscar, escribe la expresión 
 	^\s*$\n.
 	Deja el campo Reemplazar completamente vacío.Haz clic en el botón Reemplazar todo (o presiona Ctrl + Alt + Enter

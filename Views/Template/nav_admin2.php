@@ -13,8 +13,9 @@
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
                 </div>
-                <?php if($isLogged){  include_once "navlogged2.php";
-                }else{?>
+                <?php if($isLogged){ include_once "navlogged2.php";
+                    //var_dump($_SESSION['menuApp']);
+                } else {?>
                 
                 <nav class="p-4 space-y-2">
                     <a href="#inicio" class="menu-link block px-4 py-3 rounded-xl hover:bg-indigo-50">🏠 Inicio</a>
@@ -37,7 +38,7 @@
 
                         <h1 class="text-base md:text-lg font-bold text-slate-800 truncate">
                             <span id="titpage"><?= $data['page_title'] ?></span>
-                        </H1>
+                        </h1>
                     </div>
                     
                     <div class="flex items-center space-x-3">
@@ -127,20 +128,15 @@
                 }
             }
 
-            function abrirModal(id = null) { //_$$('[name="c"]')
-                _$('#titleModal').innerText = id ? 'Editar' : 'Nuevo ';
-                _$("#mainModal").classList.remove('hidden');               
+            function abrirModal(id = null, modalId = "mainModal") { //_$$('[name="c"]')
+                console.log('trackng modal', 'from navadmin', id);
+                _$('.titlemodal').innerText = id ? 'Editar' : 'Nuevo ';
+                _$("#"+modalId).classList.remove('hidden');
                 fillModalForm(id);
-                const elementoAutofocus = _$("#mainModal").querySelector('[autofocus]');
+                const elementoAutofocus = _$("#"+modalId).querySelector('[autofocus]');
                 if (elementoAutofocus) {elementoAutofocus.focus();}
-                /*else {
-                    const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-                    const firstVisibleFocusable = Array.from(_$("#mainModal").querySelectorAll(focusableSelectors))
-                    .find(el => {return !el.disabled && el.offsetWidth > 0 &&  el.offsetHeight > 0 && !el.closest('[hidden]');});
-                    if (firstVisibleFocusable) firstVisibleFocusable.focus();
-                }*/
             }
-            function cerrarModal() { _$('#mainModal').classList.add('hidden');}             
+            function cerrarModal() { _$(".mainmodal").classList.add('hidden');}             
 
 document.addEventListener('DOMContentLoaded', () => {
   const menuButton = document.getElementById('user-menu-button');

@@ -1,17 +1,18 @@
-<?php 
+<?php   
   headerAdmin($data);   
   getModal('modal', $data); 
   $heads="<th class='text-center'>ART</th>   <th>Producto</th>  <th style='
     color: lightgray;'>Stock</th>  
         <th>Cantidad</th>  <th>Precio</th>   <th>Importe</th>   <th>Acciones</th>";
   $hTicket = "<th colspan='3' class='text-center'>TICKET</th>";
+  echo "<script>const clipro=1; const cpCaption = 'Cliente'; const cpAction = 'Venta';</script>";
   ?>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/css/intlTelInput.css">
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/css/intlTelInput.css" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css"/>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="<?=media(); ?>/css/ssale.css">
+  <link rel="stylesheet" href="<?=media(); ?>/css/ssale.css" type="text/css">
   <style>
     .bertoldi{color:red;}
   </style>

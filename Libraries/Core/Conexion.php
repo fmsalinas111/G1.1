@@ -6,7 +6,8 @@
 		public function __construct(){
 			$server = $_SERVER['SERVER_NAME'];
 			// para termux android:
-			    $this->servidor 	= "127.0.0.1";
+			    //$this->servidor 	= "127.0.0.1";
+				$this->servidor 	= "localhost";
 				$this->usuario 		= "root";
 				$this->contrasena 	= "";
 				$this->basedatos 	= DB_NAME;

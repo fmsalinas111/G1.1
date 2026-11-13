@@ -1,29 +1,16 @@
 let categIva = []; let clientes = [];
 async function initApp() {
   try {
-    categIva = await getCatIva();
+    categIva = await getCatIva(); cargarCategoriasIva();
     clientes = await getData();
     render();
     if (android) switchView('cards');  // cambiarVista('cards');
     } catch (error) {  console.log(error);    }
 }
-const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/1');}
+
+const getData = async () => {return await getSome3 ('Clprpames/getClprpames2/'+clType);}
 const getCatIva = async () => {return await getSome3('Data/getDataCmb/22',{'src':'data'});}
-let vistaActual =  localStorage.getItem("vistaClientes") || "tabla";
-let paginaActual = 1;
-const clientesPorPagina = 10;
-/* =====================================================
-   PAISES
-===================================================== */
-const paises = {
-  AR: "+54",
-  UY: "+598",
-  CL: "+56",
-  BR: "+55",
-  PY: "+595",
-  BO: "+591",
-  ES: "+34"
-};
+
 /* =====================================================
    INICIO
 ===================================================== */
@@ -31,6 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarCodigoPais();
   initApp();
 });
+
+
+//let vistaActual =  localStorage.getItem("vistaClientes") || "tabla"; td?
+let paginaActual = 1;
+const clientesPorPagina = 10;
+/* =====================================================
+   PAISES
+===================================================== */
+const paises = {
+  AR: "+54",  UY: "+598",  CL: "+56",  BR: "+55",
+  PY: "+595",  BO: "+591",  ES: "+34"};
 /* =====================================================
    LOCAL STORAGE
 ===================================================== */
@@ -198,6 +196,7 @@ function renderTabla(lista) {
         <td class="p-4"> ${cliente.iva} </td>
         <td class="p-4"> ${badgeEstado(cliente.estado)} </td>
         <td class="p-4 text-right whitespace-nowrap">
+        	<button clid="${cliente.cid}" clname="${cliente.fullname}" onclick="xcli(event )" class="_cc p-2 text-gray-400 hover:text-indigo-600 transition" title="ctas"><i class="fa-solid fa-book"></i></button>
             <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})" class="_edit p-2 text-gray-400 hover:text-indigo-600 transition" title="Editar"><i class="fa-solid fa-pen"></i></button>
             <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})" class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar"><i class="fa-solid fa-trash-can"></i></button>
         </td>
@@ -250,9 +249,13 @@ function renderTarjetas(lista) {
           </div>
         </div>
         <div class="flex justify-end gap-2 mt-5 pt-4 border-t">
+          <button clid="${cliente.cid}" clname="${cliente.fullname}"  onclick="xcli(event )"
+            class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
+            <i class="fa-solid fa-book"></i> 
+          </button>
           <button prid="e,${cliente.cid}" onclick="abrirModal(${cliente.cid})"
             class="_edit p-2 bg-gray-50 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
-            <i class="fa-solid fa-pen"></i> Editar
+            <i class="fa-solid fa-pen"></i> 
           </button>
           <button prid="d,${cliente.cid}" onclick="eliminar(${cliente.cid})"
                   class="_delete p-2 text-gray-400 hover:text-red-600 transition" title="Inactivar">
@@ -345,7 +348,7 @@ function renderPaginacion(totalPaginas) {
 }
 function fillModalForm(id) {
   const form = _$("#form");  form.reset();  _$("#_id").value = "";  
-  cargarCategoriasIva(); // Cargar categorías de IVA en el modal
+  //cargarCategoriasIva(); // Cargar categorías de IVA en el modal
   if (id !== null) {
     const cliente = clientes.find(c => c.cid === id);  if (!cliente) return;    
     console.log("Cliente encontrado:", cliente);
@@ -364,7 +367,7 @@ function fillModalForm(id) {
 }
 async function guardar(e){
   if (e) e.preventDefault();
-	btnSaveUI();	setCampo2('c'); arr1.dttp = 1;
+	btnSaveUI();	setCampo2('c'); arr1.dttp = clType;
   try {
       r = await getSome3 ('clprpames/setClprpame2', {"campos":JSON.stringify(arr1)});
       console.log(r);  
@@ -401,3 +404,17 @@ async function guardar(e){
         cerrarModal();
  	  }
  }
+function xcli(event) {
+    // Evita comportamientos por defecto si los hubiera
+    event.preventDefault();
+    // Obtener el botón que recibió el click (o el padre si se hizo click en el icono <i>)
+    const boton = event.currentTarget;
+    const cid = boton.getAttribute('clid');
+    const fullname = boton.getAttribute('clname');
+    // Crear las cookies (expiran en 1 día, puedes cambiarlo)
+    const maxAge = 24 * 60 * 60; // 1 día en segundos
+    document.cookie = `cliente_cid=${encodeURIComponent(cid)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    document.cookie = `cliente_fullname=${encodeURIComponent(fullname)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    // Redirigir a la página de destino
+    window.location.href = 'ledger'; 
+}

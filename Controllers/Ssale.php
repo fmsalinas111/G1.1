@@ -3,7 +3,7 @@ class Ssale extends Controllers {
 	public function __construct(){parent:: __construct();}	
 
 	public function ssale(){
-		echo "<script>const clipro=1; const cpCaption = 'Cliente'; const cpAction = 'Venta';</script>";
+		//echo "<script>const clipro=1; const cpCaption = 'Cliente'; const cpAction = 'Venta';</script>";
 		$data['page_id']=1; 
 		$data['page_name']= 'ssale';		
 		$data['page_title']= 'Ventas - ...';

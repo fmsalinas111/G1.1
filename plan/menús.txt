@@ -1,0 +1,68 @@
+menú_según_proyecto = [
+    POS{
+        Punto de venta,
+        Tienda,
+        Productos,
+        Clientes,
+        Proveedores,
+        Compras,
+        Ventas,
+        Caja,
+        Reportes,
+        Configuración
+    },
+    Alquilando{
+        Items,
+        Contratos,
+        Clientes,
+        Cuentas por cobrar,
+        Cuentas por pagar,
+        Reportes,
+        Configuración
+    },
+    Scola{
+        Estudiantes,
+        Docentes,
+        Cursos,
+        Materias,
+        Horarios,
+        Calificaciones,
+        Reportes,
+        Configuración
+    },
+    Klinike{
+        Pacientes,
+        Citas,
+        Médicos,
+        Consultas,
+        Recetas,
+        Reportes,
+        Configuración
+    },
+    Iuris{
+        Casos,
+        Clientes,
+        Reportes,
+        Configuración
+    },
+    Taller{
+        Vehículos,
+        Clientes,
+        Servicios,
+        Reportes,
+        Configuración
+    },
+    Gestion-de-Proyectos{
+        Proyectos,
+        Tareas,
+        Reportes,
+        Configuración
+    },
+    simple-landing{
+        Inicio,
+        Servicios,  
+        Acerca de,
+        Contacto,
+        Configuración
+    }
+];

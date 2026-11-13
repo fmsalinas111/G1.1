@@ -14,7 +14,7 @@ function abrirModalEditar() {
 		//._$('#modalProductoTitulo').innerText = 'Editar Producto';
 }
 
-function cerrarModalProducto() {  document.getElementById('modalProductos').classList.add('hidden');}
+//function cerrarModalProducto() {  document.getElementById('modalProductos').classList.add('hidden');}
 
 // --- 2. MANEJO Y COMPRESIÓN DE IMÁGENES ---
 async function manejarArchivosSeleccionados(archivos) {
@@ -165,8 +165,7 @@ async function guardar(e) {
     // 2. Procesar la galería en ORDEN SECUENCIAL con un bucle for clásico
     for (let i = 0; i < listaImagenesModal.length; i++) {
       const item = listaImagenesModal[i];
-      if (item.esExistente) {
-        // Para imágenes que ya estaban guardadas en la BD (URLs)
+      if (item.esExistente) { // Para imágenes que ya estaban guardadas en la BD (URLs)
         formData.append(`imagenes_existentes[${i}]`, item.dataUrl);
         formData.append(`existentes[${i}]`, item.dataUrl.substring(item.dataUrl.lastIndexOf('/') + 1))
       } else if (item.blob) { // Para imágenes NUEVAS comprimidas por Canvas
@@ -175,16 +174,14 @@ async function guardar(e) {
       }
     }
     // 3. Envío Fetch al Backend PHP
-    const respuesta = await fetch(base_url +'/products/setproduct2', {
-      method: 'POST', body: formData //Importante: ¡NO pongas Content-Type Header! Fetch lo genera automáticamente con el boundary
+    const respuesta = await fetch(base_url +'/prods/setproduct2', {
+      method: 'POST', body: formData //Importante: ¡NO pongas Content-Type Header! Fetch lo genera el boundary
     });
 
     const resultado = await respuesta.json();
     if (resultado.status) {
-      //console.log(resultado);
-      cerrarModalProducto();
-      showToast();
-      //showToast('¡Catálogo actualizado!', 'success');
+      //showToast();
+      showToast('¡Catálogo actualizado!', 'success');
     } else {
       alert('Error desde el servidor: ' + resultado.message);
     }
@@ -200,8 +197,8 @@ async function guardar(e) {
           renderProducts(productsData);
         } else {
           render();
+          cerrarModal();
         }
-
   }
 }
 
@@ -259,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {//td?
 
 ////////////////////////////
 function renderCategorySelectModal(cats) {
-  //console.log('renderCategorySelectModal', cats);
     const select = document.getElementById('prodCategoria');
     const padreSelect = document.getElementById('catPadreId');
     if (!select) return;    

@@ -170,11 +170,11 @@ public function delCl(int $id, int  $type, bool $logical){
       $this->intId = $fields['id'];
       if ($this->intId ===0){//nuevo
         $sql =  "INSERT INTO ms_clients (clientname, clientlastname, clientemail, clientci, 
-                clstatus, cltype, companyid, clientphone, clientaddress, iva)  
-                VALUES(?,?,?,  ?,?,?,   ?,?,?,  ?)";
+                clstatus, cltype, companyid, clientphone, clientaddress, iva, user)  
+                VALUES(?,?,?,  ?,?,?,   ?,?,?,  ?,?)";
         $arrData = array($fields['nombre'], $fields['apellido'], $fields['email'], $fields['dni'], 
                   $fields['estado'], $fields['datatype'], $this->co, $fields['wsp'], $fields['adress'],
-                  $fields['iva']  );
+                  $fields['iva'], $this->usr  );
         $request = $this->insert($sql, $arrData);
       }else{
 		    $sql = "UPDATE ms_clients SET clientname=?, clientlastname=?, clientemail=?, 

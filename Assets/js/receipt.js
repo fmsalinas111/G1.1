@@ -1,9 +1,10 @@
+
 let params = new URLSearchParams(location.search);
 let pyd = params.get('pyd');
 let ft = params.get('ft');
 var qrcode = new QRCode("qrcode");
 
-gId('pdf').addEventListener('click', ()=> pdf())
+_$('#pdf').addEventListener('click', ()=> pdf())
 function pdf() {
     window.scrollTo(0,0);
     var element = document.getElementById('receipt');
@@ -24,25 +25,26 @@ const rHead = cli =>{
     <strong>Fecha:</strong> ${cli.fec_receipt}<br>
     <strong>Cliente:</strong> ${cli.nombre}<br>    
   `;
-  gIC('receipt-info').innerHTML = h;
-  gIC('amount-number').innerText = cli.abono;
-  gIC('amount-words').innerText = numeroALetras(cli.abono);
+  _$('.receipt-info').innerHTML = h;
+  _$('.amount-number').innerText = cli.abono;
+  _$('.amount-words').innerText = numeroALetras(cli.abono);
   //console.log(cli, cli.company_data);
   if (cli.company_data) {
       // Inyectamos el nombre en el elemento con ID 'coName'
-      gIC('logo').innerText = cli.company_data.coName || 'Empresa S.A.'; 
+      _$('.logo').innerText = cli.company_data.coName || 'Empresa S.A.'; 
       // Inyectamos la dirección, teléfono, etc., en el elemento con ID 'coDetails'
-      gIC('company-details').innerHTML = `
+      _$('.company-details').innerHTML = `
           ${cli.company_data.direccion || 'Dirección no disponible'}<br>
           Tel: ${cli.company_data.wsp || '-'}<br>
            ${cli.company_data.cuit || '-'}
       `;
-      gId('concept').innerText = cli.concept
-      if (APP>0){
+      _$('#concept').innerText = cli.concept
+      if (1>0){
         qr=`${base_url}receipt?pyd=${cli.pyd}&ft=${cli.ft}`;
+        console.log(qr);
         qrcode.makeCode(qr);}else{
-          gId('valid').innerText = 'documento válido'
-          gIC('qr-code').setAttribute('style','display:none;');
+          _$('#valid').innerText = 'documento válido'
+          _$('.qr-code').setAttribute('style','display:none;');
         }
   }
 }
@@ -96,7 +98,8 @@ function numeroALetras(num) {
 async function obtenerDatos(data) {
     try {// 'await' pausa la ejecución hasta que la promesa se resuelva
         const resultado = await getSome3('receipt/gReceipt/'+data,{"ft":ft}); 
-        rHead (resultado); // Muestra el resultado final
+        console.log(resultado);
+		rHead (resultado); // Muestra el resultado final
     } catch (error) {        console.error("Hubo un error:", error);    }
 }
 

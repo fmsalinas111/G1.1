@@ -1,0 +1,59 @@
+<?php
+   headerAdmin2($data); 
+   //getModal('_cat',$data);  miniModal
+  
+
+?>
+
+<main class="flex-1 p-4 md:p-6 space-y-6">
+  <h1>menu config</h1>
+  <?php
+// Suponiendo que ya obtuviste el menú actual de la compañía (o el del proyecto por defecto)
+$menuActual = json_decode($_SESSION['menuApp']  ,true) ;
+// $menuActual es un array PHP obtenido con json_decode($company['menu'] ?? $project['menu'], true);
+?>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-slate-900 text-slate-100 min-h-screen">
+    
+    <!-- COLUMNA IZQUIERDA: Vista Previa del Menú en el DOM -->
+    <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col">
+        <h3 class="text-base font-bold text-slate-200 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-eye text-indigo-400"></i> Vista Previa del Menú
+        </h3>
+        <!-- Contenedor dinámico donde tu función renderNav pintará el menú -->
+        <nav id="nav" class="space-y-1 flex-1 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <!-- El menú se inyectará aquí con JavaScript -->
+        </nav>
+    </div>
+
+    <!-- COLUMNA DERECHA: Editor de Configuración JSON de la Empresa -->
+    <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <div>
+            <h3 class="text-base font-bold text-slate-200 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-code text-indigo-400"></i> Editor de Configuración (JSON)
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">
+                Personaliza las opciones, iconos o vistas del menú de tu empresa modificando directamente la estructura JSON.
+            </p>
+
+            <!-- Textarea que contendrá el JSON actual de la compañía -->
+            <form id="formMenuCompany" onsubmit="guardarMenuPersonalizado(event)">
+                <textarea id="jsonMenuInput" rows="15" 
+                    class="w-full font-mono text-xs p-3 bg-slate-900 border border-slate-700 rounded-xl text-emerald-400 focus:outline-none focus:border-indigo-500"><?php echo htmlspecialchars(json_encode($menuActual, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></textarea>
+                
+                <div class="mt-4 flex justify-end">
+                    <button type="submit" id="btnGuardarMenu" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Guardar Cambios de la Compañía</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</main>
+
+<?php   footerAdmin2($data); ?>
+<script>
+  console.log(getLS('dttp'));
+</script>

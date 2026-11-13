@@ -1,23 +1,23 @@
 
 //console.log(bCard);
-$("#logoPreview").src = bCard.logo; if ((bCard.logo&&bCard.logo.length > 0))  show2(['logopreview']);  else hide2(['logopreview']); 
-$("#nombre_empresa").value = bCard.coName;
-$("#eslogan").value = bCard.slogan? bCard.slogan : '';
-$("#wsp").value = bCard.wsp;
-$("#fijo").value = bCard.fijo;
-$("#email").value = bCard.email;
-$("#horario").value = bCard.horario? bCard.horario : '';
+_$("#logoPreview").src = bCard.logo; if ((bCard.logo&&bCard.logo.length > 0))  show2(['logopreview']);  else hide2(['logopreview']); 
+_$("#nombre_empresa").value = bCard.coName;
+_$("#eslogan").value = bCard.slogan? bCard.slogan : '';
+_$("#wsp").value = bCard.wsp;
+_$("#fijo").value = bCard.fijo;
+_$("#email").value = bCard.email;
+_$("#horario").value = bCard.horario? bCard.horario : '';
 
-$("#direccion").value = bCard.direccion;
-$("#insta").value = bCard.insta;
-$("#face").value = bCard.face;
-$("#tik").value = bCard.tiktok;
-$("#web").value = bCard.web;
-$("#razon").value = bCard.razon;
-$("#cuit").value = bCard.cuit;
-$("#iva").value = bCard.iva;
-$("#alias").value = bCard.alias;
-$("#cbu").value = bCard.cbu;
+_$("#direccion").value = bCard.direccion;
+_$("#insta").value = bCard.insta;
+_$("#face").value = bCard.face;
+_$("#tik").value = bCard.tiktok;
+_$("#web").value = bCard.web;
+_$("#razon").value = bCard.razon;
+_$("#cuit").value = bCard.cuit;
+_$("#iva").value = bCard.iva;
+_$("#alias").value = bCard.alias;
+_$("#cbu").value = bCard.cbu;
 
 
 document.getElementById('formPerfilNegocio').addEventListener('submit', async function(e) {

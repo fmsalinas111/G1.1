@@ -14,8 +14,8 @@
           AND password='$this->strCampo2'";*/
           //echo $sql.'<hr>';
       $sql = "
-          SELECT PU.projectid AS pbProj, PU.lastCo AS pbuLastCo, C.companyname, C.`description`, 
-          BC.address ,
+          SELECT PU.projectid AS pbProj, P.menu AS menuApp, PU.lastCo AS pbuLastCo, C.companyname, C.`description`, 
+          C.menu AS menuCo, BC.address,
           C.companylogo AS logo, C.`page`, productconfig, U.userid, username, U.email, U.lastprojid AS uLastPr, projectname AS projName, modules AS mods, `status` AS stt, companyuser, suar, U.rol as rid, ROL.dataname as rolName, ROL.datadescription as allowed, defaults as defa 
           FROM `ms_users` U 
           JOIN ms_projects P ON U.lastprojid = P.projectid 

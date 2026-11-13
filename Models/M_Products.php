@@ -96,30 +96,6 @@ class M_Products extends Mysql{
       return $this->select($sql);
     }
 
-    public function crudProduct(int $prid, string $nombre, string $sku, int $categ, string $price, int $factor, string $fotos, int $stt, int $inv){
-      $this->intId = $prid;  
-      
-        if ($this->intId>0){
-          $sql ="UPDATE ms_products 
-                SET productname=?, code=?, categoryid=?, price=?, factor=?, imagename=?,
-                `prodstatus`=?, inactive=?
-                WHERE productid = $this->intId
-                    and companyid=$this->co"; //agente 1
-        $arrData = array($nombre, $sku, $categ, $price, $factor, $fotos, $stt, $inv);
-        $request = $this->update($sql, $arrData);
-        $request = ($request>0)?$request:'error';
-        
-
-        }else{
-          $sql ="INSERT INTO ms_products (productname, code, categoryid, price, factor, imagename, companyid) 
-          VALUES(?,?,?,?,   ?,?,?)";
-          $arrData = array($nombre, $sku, $categ, $price, $factor, $fotos, 
-          $this->co); 
-          $request = $this->insert($sql, $arrData);  
-        }
-        return $request;
-    }
-      
     public function ins_updProduct(int $id, string $nombre , string $desc, string $precio, int $stt,
      int $campo5, int $speciality, int $factor, int $vendor, int $insumo, string $img, string $bline,
      string $art, string $baco){

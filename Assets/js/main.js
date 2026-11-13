@@ -57,9 +57,34 @@ function closeToast() {
     document.getElementById('toast-success').classList.add('hidden');
 }
 
+function guardarCookie(nombre, valor, diasExpiracion) {
+  try {
+    const fecha = new Date();
+    fecha.setTime(fecha.getTime() + (diasExpiracion * 24 * 60 * 60 * 1000));
+    const expiracion = "expires=" + fecha.toUTCString();
+    // Asignación estándar a document.cookie
+    document.cookie = `${nombre}=${valor}; ${expiracion}; path=/; SameSite=Strict`;    
+    return {result: true, message: "Cookie guardada correctamente."};
+  } catch (error) {
+    console.error("No se pudo guardar la cookie:", error.message);
+    return {result: false, message: "Error al guardar la cookie."};
+  }
+}
 
 function setLS(c="",v=""){localStorage.setItem(c, v); guardarCookie(c,v,100);} 
 const getLS = clave => localStorage.getItem(clave);
+
+const hoy = (option) => {
+  const f = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+
+  if (option === 'h') {
+    return `${pad(f.getHours())}:${pad(f.getMinutes())}`;
+  }
+
+  return `${f.getFullYear()}-${pad(f.getMonth() + 1)}-${pad(f.getDate())}`;
+};
+
 
  /**
  * Envía datos a un servidor usando Fetch API.

@@ -6,11 +6,11 @@ require_once $path;
 
 class Clprpames extends Controllers {public function __construct(){parent:: __construct();}	
 	public function clprpames(){
-		$data['page_id']=1; 
+		$data['page_id'] = 1; 
 		$data['page_name']= 'clprpames';		
 		$data['page_title']= 'Clientes';//clientes, pacientes, inquilinos, etc
 		$data['page_tag'] 	= 'clprpames  <small>'.STORE().'</small>';
-		$data['page_jquery'] = true; $data['page_datatable'] = true;
+		//$data['page_jquery'] = true; $data['page_datatable'] = true;
 		$this->views->getView($this,$data['page_name'],$data);
 	}
 
@@ -84,7 +84,8 @@ class Clprpames extends Controllers {public function __construct(){parent:: __co
 		$phone  = Sanitizer::cleanNumbersOnly($campos['telefono']);		
 		$catIva  = Sanitizer::cleanNumbersOnly($campos['categoriaIva']);
 		$adress  = Sanitizer::cleanString($campos['direccion']);
-		$dType  = intval(strClean($campos['dttp']));
+		$dType  = clType(); //intval(strClean($campos['dttp']));
+
 		$datosSanitizados = ['id' => $intId, 'nombre'=>$name, 'apellido'=>$last, 
 				'email'=>$email, 'estado'=>$status, 'datatype'=>$dType, 'dni'=>$dni, 
 				'wsp' =>$phone, 'adress'=>$adress,'iva'=>$catIva ];

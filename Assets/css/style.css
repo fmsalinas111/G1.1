@@ -1,0 +1,47 @@
+td.edit {  background: #f8ff88;}
+
+.w-100{
+  width: 100% !important;  
+}
+.preview{
+  position: relative;
+  cursor: pointer;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
+    .app-sidebar__user-avatar {
+        width: 48px;
+        background: gray;
+        padding: 6pxs;
+    }
+
+    .headerRegister {    background: #009688;    color: #FFF;}
+
+    .headerUpdate {    background: #007bff;    color: #FFF;}
+
+    .notBlock {    display: none;}
+    #Buscar{padding:  15px;}
+    #global_filter{text-align: center; }
+
+/*    div.dataTables_filter input {
+      border-radius: 15px;      
+    }*/
+/*        .dataTables_filter {display: none; }
+*/
+a{text-decoration: none;}
+
+    .cards{        display: flex;        flex-wrap: wrap;    }
+    .nomnegocio{ color: #FF33E9; }
+    .tarjeta{
+       border-color: #aaaaaa;
+       border-width: 1px;
+       border-style: solid;
+       border-radius: 15px;
+       padding: 10px;
+       margin: 5px;
+       background-color: #eaf5f5;
+       
+    }

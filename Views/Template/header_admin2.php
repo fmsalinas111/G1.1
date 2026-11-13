@@ -5,20 +5,22 @@
 		$termux = termux();
 		$pageApp = PAGEAPP($data['page_name']) ;
         $favicon='./ges.ico';
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $android = strtolower($userAgent)==='android'; // android, windows
 		/*echo "pageApp: ".$pageApp."<hr>";
         echo "usr: ".USR() ."<hr>";
         echo "page: ".$data['page_name'] ."<hr>";
         echo "tenant: ".TENANT_SLUG ."<hr>";
         echo (!USR()&&$pageApp) ;*/
-if ($termux){	
-	if(!USR()&&$pageApp) echo '
-		<a href="/login"   class="inline-block bg-blue-600 
-		hover:bg-blue-700 text-white font-semibold py-2.5 
-		px-5 rounded-lg shadow-md transition duration-200 ease-in-out text-center"
-		> Iniciar Sesión</a> ';
-	}else{	
-		if(!USR()&&$pageApp) 	header('location:'.base_url().'login'); //exit();
-     }
+    if ($termux){	
+        if(!USR()&&$pageApp) echo '
+            <a href="/login"   class="inline-block bg-blue-600 
+            hover:bg-blue-700 text-white font-semibold py-2.5 
+            px-5 rounded-lg shadow-md transition duration-200 ease-in-out text-center"
+            > Iniciar Sesión</a> ';
+        }else{	
+            if(!USR()&&$pageApp) 	header('location:'.base_url().'login'); //exit();
+        }
     ?>
     <html lang="es" class="scroll-smooth">
     <head>
@@ -27,17 +29,19 @@ if ($termux){
         <?=NOINDEX($data['page_name']); ?>
         <title><?=$data['page_title'] ?></title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-        <?php if(USR()==1 && !($_SERVER["SERVER_NAME"] == "localhost") ){ ?>            
+        <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <?php if(USR()==1 && !($_SERVER["SERVER_NAME"] == "localhost") && $android){ ?>            
            <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
            <script>eruda.init();</script>
         <?php  }  //end eruda   #header personalizado
             $hi = (h($data['headItems'],[])); foreach ($hi as $i) { echo $i.PHP_EOL; }        
         ?>
+        
         <style>
-    /* Cambia esto para permitir el scroll en toda la página */
-        <style>
-             html, body { /*overflow: hidden; */ height: 100%; margin: 0;} 
+             html, body { 
+                /*overflow: hidden; */  /*permite el scroll en toda la página */
+                height: 100%; margin: 0;} 
         </style>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $favicon; ?>">
     </head>

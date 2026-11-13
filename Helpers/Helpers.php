@@ -14,9 +14,15 @@
 			$view_footer= "Views/Template/footer_admin2.php";
 			require_once ($view_footer);
 		}
+		
+		
 
 	/*admin2*/
-
+function getSanitizer(){
+$path = __DIR__ . '/../Helpers/Sanitizer.php';
+if (!file_exists($path)) die("El archivo no existe en: " . realpath(__DIR__ . '/..') . '/Helpers/Sanitizer.php');    
+require_once $path;
+}
 
 	function dark(){		echo "<style></style>";	}
 
@@ -34,6 +40,9 @@
 	function USR($data=''){return h($_SESSION['userid'],0);}
 	function USRNAME($data=''){return h($_SESSION['username'],'guest');}
 	function APP($data=''){return h($_SESSION['app'],0);}
+	function clType(){return intval((APP()==2)?5:1);}
+
+
 	//$_SESSION['company']
 	function STORE($data=''){return h($_SESSION['company'],TENANT_SLUG);}
 	function APNAME($data=''){return h($_SESSION['appName'],'');}
@@ -53,7 +62,7 @@
 	function PAGEAPP($page = ''){
 		$pages = array('clprpames', 'products', 'products2', 'cpacos', 'ssale', 'buysal', 
 				'inventory', 'inventory2', 'reports', 'sreports', 'datos', 'daten', '_stock', 
-				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte' ,'mydata', 'prods');
+				'usuarios', 'misdatos', 'logout', 'login', 'dash', '_dash', 'ctacte' ,'mydata', 'prods', 'ledger');
 		return (in_array($page, $pages));	
   	}
 

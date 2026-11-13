@@ -68,17 +68,20 @@ function iniciar(){
 
 function registrar(){
   var everything='ok';  
-  usuario = document.getElementById('inputLastName').value;
-  clave1  = document.getElementById('inputPassword').value;
-  clave2  = document.getElementById('inputConfirmPassword').value;
-  if(clave1 != clave2)  {
+  usuario = document.getElementById('inputLastName');
+  email = document.getElementById('inputEmailAddress');
+  celu = document.getElementById('cellNumber');
+  clave1  = document.getElementById('inputPassword');
+  clave2  = document.getElementById('inputConfirmPassword');
+  app = document.querySelector('#app');
+  if(clave1.value != clave2.value) {
     alert("Las contraseñas deben coincidir"); 
-    document.getElementById("inputPassword").focus();
+    clave1.focus();
     everything='no'; return;
   }  
-  if (usuario.length<4 ||usuario.length>20) {
+  if (usuario.value.length<4 ||usuario.value.length>20) {
     alert("usuario inválido"); 
-    document.getElementById('inputLastName').focus();
+    usuario.focus();
     everything='no';
   }
   //document.querySelector('input[name="radio"]:checked')==null ? (alert('debe seleccionar un tipo de empresa o ERP'), everything='no') : '';
@@ -89,21 +92,21 @@ function registrar(){
     everything='no';
   }
   if (everything =='ok') {
-    let texto=usuario;
+    let texto=usuario.value;
     let patron=/^[A-ZÑÁËÍÓÚÜa-zñáéíóúü0-9;._*$%&!()\/-]+$/;
     if(!patron.test(texto)) {
       alert('nombre de usuario no permitido');
-      document.getElementById('inputLastName').focus();
+      usuario.focus();
       return null;
     }
 
     const data = new FormData(); 
-    data.append('usuario', usuario);    
-    data.append('password', clave1);
-    data.append('email', document.getElementById('inputEmailAddress').value);
-    data.append('cell', document.getElementById('cellNumber').value);
+    data.append('usuario', usuario.value);    
+    data.append('password', clave1.value);
+    data.append('email', email.value);
+    data.append('cell', celu.value);
     data.append('gallery', localStorage.gallery);
-    data.append('app', document.querySelector('input[name="radio"]:checked')?.value||5);
+    data.append('app', app.value);
     //data.append('tienda', document.getElementById('tienda').value);
     fetch(base_url+'/Usuarios/registrar', {method: 'POST', body: data  })
     .then(function(response) {
@@ -115,7 +118,7 @@ function registrar(){
       document.getElementById('mensaje').innerHTML=objData.msg;
       document.getElementById('alert1').classList.remove('d-none');
       localStorage.clear();
-      if (objData.status) window.location.href = base_url+"/login"; 
+      if (objData.status) window.location.href = base_url+"login"; 
       if (objData.msg==='ya existe! ') document.getElementById('mensaje').innerText='Usuario ya registrado';
         document.getElementById('alert1').classList.remove('d-none');//si no es ok, mostrar el alert
     })

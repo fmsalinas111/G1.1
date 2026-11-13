@@ -69,7 +69,9 @@ const rendProd=data=>{
         blines = producto.bline.split(','); blines.forEach(r=>{ if (!arrBline.includes(r)) arrBline.push(r); })
         //templateDetail.querySelector('.stk').textContent = producto.prid;//
         //templateProd.querySelector('.img-box').style.backgroundImage = `url(${imgProd})`;
-        imgProd = isValidUrl(producto.img)? producto.img: imgPath+producto.img;    
+        imagenes = producto.img.split(","); imagen = imagenes[0];
+        //imgProd = isValidUrl(producto.img)? producto.img: imgPath+producto.img;    
+        imgProd = isValidUrl(imagen)? imagen: imgPath+imagen;    
         templateProd.querySelector('.img-box').setAttribute('src', imgProd);
         templateProd.querySelector('.img-box').setAttribute('alt', `sin imagen `);
         templateProd.querySelector('.name').textContent = producto.name;  
@@ -95,15 +97,13 @@ const rendProd=data=>{
 const hasCId = data => arrCats.some(cid => cid.dataId === data);
 // Función para recalcular el total de todos los inputs
 const updateTotalQuantity = () => {
-    let total = 0;
-    // Selecciona todos los inputs de cantidad
+    let total = 0; // Selecciona todos los inputs de cantidad
     const quantityInputs = gridContainer.querySelectorAll('.quantity-input');
     quantityInputs.forEach(input => { // Convierte el valor a un número y suma al total
         total += parseInt(input.value) || 0; 
     });
     // Actualiza el texto en el botón sticky
-    if (total > 0) show(['sticky-submit-btn']);
-    else hide(['sticky-submit-btn']);
+    if (total > 0) show(['sticky-submit-btn']); else hide(['sticky-submit-btn']);
     totalQuantityDisplay.textContent = total;
     toContinue();
 };
@@ -119,13 +119,11 @@ gridContainer.addEventListener('click', (event) => {
         let currentValue = parseInt(input.value);
 
         if (target.classList.contains('btn-plus')) {//sumar
-            
             if (xm.checked) {
                 const xmValue = parseInt(controlDiv.getAttribute('data-xm')) || 1;
                 currentValue += xmValue; }
             else currentValue++;
             addRow([controlDiv.getAttribute('data-prid'), currentValue]);
-
         } else if (target.classList.contains('btn-minus')) {// Restar, >= 0
             if (currentValue > 0) {
                 currentValue--;
@@ -138,7 +136,6 @@ gridContainer.addEventListener('click', (event) => {
         updateTotalQuantity();
     }
 });
-
 // Inicializa el total al cargar la página
 updateTotalQuantity();
 

@@ -11,7 +11,7 @@
     </script>
     <!-- <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">         
     <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">                -->
-        <main class="flex-1 p-4 md:p-6 space-y-6">
+    <main class="flex-1 p-4 md:p-6 space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-gray-200">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-800">Catálogo</h1>

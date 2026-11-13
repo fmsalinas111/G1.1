@@ -124,24 +124,10 @@ $('#tableCtacte').on('click', 'button.botonRecibo', function() {
         pyd:reg.si,   bank:reg.bank,    ft:reg.ft
     };
     localStorage.setItem("receipt", JSON.stringify(data));
-    window.open('receipt/','_blank');
+    window.open('receipt','_blank');
 });
 
 
-/*
-  $('#tableClprpame').on('click', 'button.botondetalles', function() {//  paciente File  
-      let registro = table.row($(this).parents('tr')).data(); 
-      //btoa("category=textile&user=user1") //atob("Y2F0ZWdvcnk9dGV4dGlsZSZ1c2VyPXVzZXIx")
-      //window.location.href = "k_file.php?data="+btoa(registro.clientid) +'&pn='+btoa(registro.clientname);
-      if (clType ==3 || clType ==4){
-          setXCli('xcli',registro.clientid);
-          setXCli('xname',registro.clientname);
-          setXCli('xmail',registro.clientemail);
-          window.location.href ='K_ficha';
-      }
-      if (clType==5) alert('ctacte inquilino')
-  });
-*/
 function fillTC(texto, type, param){
   var ca;  i=0; j=0; h='';
   obj=JSON.parse(texto)

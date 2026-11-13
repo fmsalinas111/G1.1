@@ -49,6 +49,20 @@
   //echo 'tr-'.$_SESSION['app'];
   //echo $favicon;
   //echo saca_dominio($server).'-'.$server.'-'.$_SERVER['REQUEST_URI'];
+
+  //---
+  $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+  // Convertimos a minúsculas para evitar problemas con mayúsculas/minúsculas
+  $userAgentLower = strtolower($userAgent);
+  if (strpos($userAgentLower, 'android') !== false) {
+      //echo "El usuario está en un dispositivo Android.";
+  } elseif (strpos($userAgentLower, 'windows') !== false || strpos($userAgentLower, 'macintosh') !== false || (strpos($userAgentLower, 'linux') !== false && strpos($userAgentLower, 'mobile') === false)) {
+      //echo "El usuario está en una PC (Windows, Mac o Linux de escritorio).";
+  } else {
+      //echo "El usuario está usando otro sistema operativo (ej. iPhone, iPad, etc.).";
+  }
+  //---
+
 ?>
 
 <html lang="es">
@@ -92,9 +106,17 @@
     <!-- estilos personalizados -->
     <link rel="stylesheet" type="text/css" href="<?= media();?>/css/<?= $data['page_css'];?>">
     <?php } ?>
+
     
     <title><?=$title; ?></title>
   
-    
+  <?php if(USR()==1 && !($_SERVER["SERVER_NAME"] == "localhost") && $userAgentLower==='android' ){ ?> 
+           <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+           <script>eruda.init();</script>
+        <?php  }  //end eruda   #header personalizado
+  ?>
+
+
+
   </head>
   <?php require_once('nav_admin.php'); ?>

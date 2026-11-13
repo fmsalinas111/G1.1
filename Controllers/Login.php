@@ -39,6 +39,8 @@ class Login extends Controllers {
 					  
 						$_SESSION['app']= $arrData['uLastPr'];
 						$_SESSION['appName']= $arrData['projName'];
+						$_SESSION['menuApp']= $arrData['menuApp'];
+						$_SESSION['menuCo']= $arrData['menuCo'];
 						$_SESSION['suar'] = $arrData['suar'];
 						$_SESSION['rid'] = $arrData['rid'];
 						$_SESSION['rolName'] = $arrData['rolName'];
